@@ -1,0 +1,15 @@
+{
+  "name": "com.agava.yandexgames",
+  "version": "1.3.1",
+  "displayName": "Yandex Games",
+  "type": "library",
+  "unity": "2020.3",
+  "description": "Yandex Games Unity SDK for the WebGL platform.",
+  "samples": [
+    {
+      "displayName": "Playtesting Sample",
+      "description": "Contains sample for uploading to Yandex Games and manually testing the SDK.",
+      "path": "Samples~/Playtesting"
+    }
+  ]
+}
