@@ -10,12 +10,11 @@ namespace YandexGames
     /// Proxy for ysdk.adv.showRewardedVideo() method in YandexGames SDK.
     /// </summary>
     /// <remarks>
-    /// Normally "VideoAd" class should not be static,
-    /// but a proxy class has to match the SDK logic.
+    /// Normally this class should not be static, but a proxy has to follow the SDK API.
     /// </remarks>
     public static class VideoAd
     {
-        // Mutable static fields. Disgusting.
+        // Mutable static fields - absolutely disgusting.
         private static Action s_onOpenCallback;
         private static Action s_onRewardedCallback;
         private static Action s_onCloseCallback;
@@ -24,7 +23,7 @@ namespace YandexGames
         public static void Show(Action onOpenCallback = null, Action onRewardedCallback = null,
             Action onCloseCallback = null, Action<string> onErrorCallback = null)
         {
-            // You should be ashamed of yourself.
+            // Let's pretend you didn't see this.
             s_onOpenCallback = onOpenCallback;
             s_onRewardedCallback = onRewardedCallback;
             s_onCloseCallback = onCloseCallback;

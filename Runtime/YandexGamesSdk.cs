@@ -15,7 +15,7 @@ namespace YandexGames
         /// <summary>
         /// Think of this as a static constructor.
         /// </summary>
-#if UNITY_WEBGL
+#if UNITY_WEBGL && !UNITY_EDITOR
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 #endif
         [DllImport("__Internal")]
