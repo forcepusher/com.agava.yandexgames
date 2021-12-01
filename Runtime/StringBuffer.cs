@@ -6,19 +6,19 @@ namespace YandexGames.Utility
 {
     public class StringBuffer
     {
-        private readonly IntPtr _pointer;
-        private readonly int _length;
+        private readonly IntPtr _bufferPtr;
+        private readonly int _bufferLength;
 
-        public StringBuffer(IntPtr pointer, int length)
+        public StringBuffer(IntPtr bufferPtr, int bufferLength)
         {
-            _pointer = pointer;
-            _length = length;
+            _bufferPtr = bufferPtr;
+            _bufferLength = bufferLength;
         }
 
         public override string ToString()
         {
-            byte[] errorMessageBuffer = new byte[_length];
-            Marshal.Copy(_pointer, errorMessageBuffer, 0, _length);
+            byte[] errorMessageBuffer = new byte[_bufferLength];
+            Marshal.Copy(_bufferPtr, errorMessageBuffer, 0, _bufferLength);
             return Encoding.UTF8.GetString(errorMessageBuffer);
         }
     }

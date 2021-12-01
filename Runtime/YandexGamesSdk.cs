@@ -1,8 +1,11 @@
+using System.Collections;
 using System.Runtime.InteropServices;
+#if UNITY_WEBGL && !UNITY_EDITOR
 using UnityEngine;
 using UnityEngine.Scripting;
 
 [assembly: AlwaysLinkAssembly]
+#endif
 namespace YandexGames
 {
     public static class YandexGamesSdk
@@ -22,9 +25,21 @@ namespace YandexGames
         private static extern bool Initialize();
 
         /// <summary>
-        /// SDK is initialized automatically on load. If something fails, this will return false.
+        /// Leaderboard is initialized automatically on load.
+        /// If either something fails or called way too early, this will return false.
         /// </summary>
+        public static bool IsInitialized => VerifySdkInitialization();
+
         [DllImport("__Internal")]
-        public static extern bool VerifyInitialization();
+        private static extern bool VerifySdkInitialization();
+
+        /// <summary>
+        /// Coroutine waiting for <see cref="IsInitialized"/> to return true.
+        /// </summary>
+        public static IEnumerator WaitForInitialization()
+        {
+            while (!IsInitialized)
+                yield return null;
+        }
     }
 }

@@ -9,9 +9,6 @@ namespace YandexGames
     /// <summary>
     /// Proxy for ysdk.adv.showFullscreenAdv() method in YandexGames SDK.
     /// </summary>
-    /// <remarks>
-    /// Normally this class should not be static, but a proxy has to follow the SDK API.
-    /// </remarks>
     public static class InterestialAd
     {
         // Mutable static fields - absolutely disgusting.
