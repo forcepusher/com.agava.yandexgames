@@ -5,7 +5,7 @@ using NUnit.Framework;
 
 namespace YandexGames.Utility.Tests
 {
-    public class StringBufferTests
+    public class UnmanagedStringTests
     {
         [Test]
         public void ToStringShouldNotGiveCorruptResult()
@@ -19,7 +19,7 @@ namespace YandexGames.Utility.Tests
             IntPtr testStringBufferPtr = Marshal.AllocHGlobal(testStringBytes.Length);
             Marshal.Copy(testStringBytes, 0, testStringBufferPtr, testStringBytes.Length);
 
-            var stringBuffer = new StringBuffer(testStringBufferPtr, testStringBytes.Length);
+            var stringBuffer = new UnmanagedString(testStringBufferPtr, testStringBytes.Length);
             Assert.AreEqual(testString, stringBuffer.ToString());
 
             Marshal.FreeHGlobal(testStringBufferPtr);

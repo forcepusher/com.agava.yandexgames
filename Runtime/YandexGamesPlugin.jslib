@@ -131,12 +131,34 @@ const library = {
       });
     },
 
-    setLeaderboardScore: function (leaderboardName, score, additionalData, successCallbackPtr, errorCallbackPtr) {
+    setLeaderboardScore: function (leaderboardName, score, successCallbackPtr, errorCallbackPtr, additionalData) {
       yandexGames.throwIfLeaderboardNotInitialized();
 
       yandexGames.authorizePlayerAccountIfNotAuthorized().then(function () {
         yandexGames.leaderboard.setLeaderboardScore(leaderboardName, score, additionalData).then(function () {
           dynCall('v', successCallbackPtr, []);
+        }).catch(function (error) {
+          yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+        });
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    getLeaderboardEntries: function (leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf) {
+      yandexGames.throwIfLeaderboardNotInitialized();
+
+      yandexGames.authorizePlayerAccountIfNotAuthorized().then(function () {
+        yandexGames.leaderboard.getLeaderboardEntries(leaderboardName, {
+          includeUser: includeSelf, quantityAround: competingPlayersCount, quantityTop: topPlayersCount
+        }).then(function (response) {
+          // TODO: This is repetitive code. Make a class.
+          const entriesMessage = JSON.stringify(response);
+          const entriesMessageBufferSize = lengthBytesUTF8(entriesMessage) + 1;
+          const entriesMessageBufferPtr = _malloc(entriesMessageBufferSize);
+          stringToUTF8(entriesMessage, entriesMessageBufferPtr, entriesMessageBufferSize);
+          dynCall('vii', successCallbackPtr, [entriesMessageBufferPtr, entriesMessageBufferSize]);
+          _free(entriesMessageBufferPtr);
         }).catch(function (error) {
           yandexGames.invokeErrorCallback(error, errorCallbackPtr);
         });
@@ -176,7 +198,8 @@ const library = {
 
   AuthenticatePlayerAccount: function (requestPermissions, onAuthenticatedCallbackPtr, errorCallbackPtr) {
     // Booleans are transferred as either 1 or 0, so using !! to convert them to true or false.
-    yandexGames.authenticatePlayerAccount(!!requestPermissions, onAuthenticatedCallbackPtr, errorCallbackPtr);
+    requestPermissions = !!requestPermissions;
+    yandexGames.authenticatePlayerAccount(requestPermissions, onAuthenticatedCallbackPtr, errorCallbackPtr);
   },
 
   ShowInterestialAd: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
@@ -187,11 +210,17 @@ const library = {
     yandexGames.showVideoAd(openCallbackPtr, rewardedCallbackPtr, closeCallbackPtr, errorCallbackPtr);
   },
 
-  SetLeaderboardScore: function (leaderboardNamePtr, score, additionalDataPtr, successCallbackPtr, errorCallbackPtr) {
+  SetLeaderboardScore: function (leaderboardNamePtr, score, successCallbackPtr, errorCallbackPtr, additionalDataPtr) {
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
     var additionalData = UTF8ToString(additionalDataPtr);
     if (additionalData.length === 0) { additionalData = undefined; }
-    yandexGames.setLeaderboardScore(leaderboardName, score, additionalData, successCallbackPtr, errorCallbackPtr);
+    yandexGames.setLeaderboardScore(leaderboardName, score, successCallbackPtr, errorCallbackPtr, additionalData);
+  },
+
+  GetLeaderboardEntries: function (leaderboardNamePtr, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf) {
+    const leaderboardName = UTF8ToString(leaderboardNamePtr);
+    includeSelf = !!includeSelf;
+    yandexGames.getLeaderboardEntries(leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf);
   },
 }
 

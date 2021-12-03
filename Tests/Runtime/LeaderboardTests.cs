@@ -24,7 +24,22 @@ namespace YandexGames.Tests
         public IEnumerator SetScoreShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            Leaderboard.SetScore("NonExistingBoard", 228, onErrorCallback: (message) => {
+            Leaderboard.SetScore("NonExistingBoard", 228, onErrorCallback: (message) =>
+            {
+                callbackInvoked = true;
+            });
+
+            yield return new WaitForSecondsRealtime(1);
+
+            Assert.IsTrue(callbackInvoked);
+        }
+
+        [UnityTest]
+        public IEnumerator GetEntriesShouldInvokeErrorCallback()
+        {
+            bool callbackInvoked = false;
+            Leaderboard.GetEntries("NonExistingBoard", onErrorCallback: (message) =>
+            {
                 callbackInvoked = true;
             });
 

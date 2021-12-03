@@ -4,12 +4,12 @@ using System.Text;
 
 namespace YandexGames.Utility
 {
-    public class StringBuffer
+    public struct UnmanagedString
     {
         private readonly IntPtr _bufferPtr;
         private readonly int _bufferLength;
 
-        public StringBuffer(IntPtr bufferPtr, int bufferLength)
+        public UnmanagedString(IntPtr bufferPtr, int bufferLength)
         {
             _bufferPtr = bufferPtr;
             _bufferLength = bufferLength;
