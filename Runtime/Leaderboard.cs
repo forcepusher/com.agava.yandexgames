@@ -73,9 +73,12 @@ namespace YandexGames
 
         #region GetEntries
         /// <summary>
-        /// Returns result JSON as a string in onSuccessCallback, for now.
+        /// Returns result JSON as a string in onSuccessCallback - for now.
         /// </summary>
-        public static void GetEntries(string leaderboardName, Action<string> onSuccessCallback = null, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
+        /// <remarks>
+        /// Use <see cref="PlayerAccount.IsAuthorized"/> to avoid automatic authorization window popup.
+        /// </remarks>
+        public static void GetEntries(string leaderboardName, Action<string> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
         {
             s_onGetEntriesSuccessCallback = onSuccessCallback;
             s_onGetEntriesErrorCallback = onErrorCallback;

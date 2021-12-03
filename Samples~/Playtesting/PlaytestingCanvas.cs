@@ -67,7 +67,7 @@ namespace YandexGames.Samples
 
         public void OnGetLeaderboardEntriesButtonClick()
         {
-            Leaderboard.GetEntries("PlaytestBoard", onSuccessCallback: (resultJson) =>
+            Leaderboard.GetEntries("PlaytestBoard", (resultJson) =>
             {
                 // Parse it and use it :D
                 // I will parse it myself later.

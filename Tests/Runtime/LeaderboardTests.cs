@@ -38,7 +38,7 @@ namespace YandexGames.Tests
         public IEnumerator GetEntriesShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            Leaderboard.GetEntries("NonExistingBoard", onErrorCallback: (message) =>
+            Leaderboard.GetEntries("NonExistingBoard", null, onErrorCallback: (message) =>
             {
                 callbackInvoked = true;
             });
