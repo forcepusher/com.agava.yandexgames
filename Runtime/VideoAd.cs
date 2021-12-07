@@ -11,7 +11,7 @@ namespace YandexGames
     /// </summary>
     public static class VideoAd
     {
-        // Mutable static fields - absolutely disgusting.
+        // More statics to the god of statics.
         private static Action s_onOpenCallback;
         private static Action s_onRewardedCallback;
         private static Action s_onCloseCallback;
@@ -20,7 +20,7 @@ namespace YandexGames
         public static void Show(Action onOpenCallback = null, Action onRewardedCallback = null,
             Action onCloseCallback = null, Action<string> onErrorCallback = null)
         {
-            // Let's pretend you didn't see this.
+            // And this is where static fields backfire. Instant Karma.
             s_onOpenCallback = onOpenCallback;
             s_onRewardedCallback = onRewardedCallback;
             s_onCloseCallback = onCloseCallback;

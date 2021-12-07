@@ -12,7 +12,7 @@ namespace YandexGames
         // This is what we deserve for using Unity.
         private static Action s_onSetScoreSuccessCallback;
         private static Action<string> s_onSetScoreErrorCallback;
-        private static Action<string> s_onGetEntriesSuccessCallback;
+        private static Action<LeaderboardGetEntriesResponse> s_onGetEntriesSuccessCallback;
         private static Action<string> s_onGetEntriesErrorCallback;
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace YandexGames
         /// <remarks>
         /// Use <see cref="PlayerAccount.IsAuthorized"/> to avoid automatic authorization window popup.
         /// </remarks>
-        public static void GetEntries(string leaderboardName, Action<string> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
+        public static void GetEntries(string leaderboardName, Action<LeaderboardGetEntriesResponse> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
         {
             s_onGetEntriesSuccessCallback = onSuccessCallback;
             s_onGetEntriesErrorCallback = onErrorCallback;
@@ -92,12 +92,14 @@ namespace YandexGames
         [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
         private static void OnGetLeaderboardEntriesSuccessCallback(IntPtr entriesMessageBufferPtr, int entriesMessageBufferLength)
         {
-            string entriesMessage = new UnmanagedString(entriesMessageBufferPtr, entriesMessageBufferLength).ToString();
+            string entriesResponseJson = new UnmanagedString(entriesMessageBufferPtr, entriesMessageBufferLength).ToString();
 
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(Leaderboard)}.{nameof(OnGetLeaderboardEntriesSuccessCallback)} invoked, {nameof(entriesMessage)} = {entriesMessage}");
+                Debug.Log($"{nameof(Leaderboard)}.{nameof(OnGetLeaderboardEntriesSuccessCallback)} invoked, {nameof(entriesResponseJson)} = {entriesResponseJson}");
 
-            s_onGetEntriesSuccessCallback?.Invoke(entriesMessage);
+            LeaderboardGetEntriesResponse entriesResponse = JsonUtility.FromJson<LeaderboardGetEntriesResponse>(entriesResponseJson);
+
+            s_onGetEntriesSuccessCallback?.Invoke(entriesResponse);
         }
 
         [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
