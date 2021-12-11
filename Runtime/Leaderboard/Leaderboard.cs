@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
@@ -15,40 +14,26 @@ namespace YandexGames
         private static Action<LeaderboardGetEntriesResponse> s_onGetEntriesSuccessCallback;
         private static Action<string> s_onGetEntriesErrorCallback;
 
-        /// <summary>
-        /// LeaderboardService is initialized automatically on load.
-        /// If either something fails or called way too early, this will return false.
-        /// </summary>
-        public static bool IsInitialized => VerifyLeaderboardInitialization();
-        
-        [DllImport("__Internal")]
-        private static extern bool VerifyLeaderboardInitialization();
-
-        /// <summary>
-        /// Coroutine waiting for <see cref="IsInitialized"/> to return true.
-        /// </summary>
-        public static IEnumerator WaitForInitialization()
-        {
-            while (!IsInitialized)
-                yield return null;
-        }
-
         // We shouldn't normally use regions, but my eyes hurt from statics.
 
         #region SetScore
+        /// <summary>
+        /// If user did not give <see cref="PlayerAccount.HasProfileDataPermission"/> or rejected it,
+        /// the result will be posted anonymously. You can prevent that.
+        /// </summary>
         /// <remarks>
-        /// Use <see cref="PlayerAccount.IsAuthorized"/> to avoid automatic authorization window popup.
+        /// Requires authorization. Use <see cref="PlayerAccount.Authorized"/> and <see cref="PlayerAccount.Authorize"/>.
         /// </remarks>
-        public static void SetScore(string leaderboardName, int score, Action onSuccessCallback = null, Action<string> onErrorCallback = null, string additionalData = "")
+        public static void SetScore(string leaderboardName, int score, Action onSuccessCallback = null, Action<string> onErrorCallback = null, string extraData = "")
         {
             s_onSetScoreSuccessCallback = onSuccessCallback;
             s_onSetScoreErrorCallback = onErrorCallback;
 
-            SetLeaderboardScore(leaderboardName, score, OnSetLeaderboardScoreSuccessCallback, OnSetLeaderboardScoreErrorCallback, additionalData);
+            SetLeaderboardScore(leaderboardName, score, OnSetLeaderboardScoreSuccessCallback, OnSetLeaderboardScoreErrorCallback, extraData);
         }
 
         [DllImport("__Internal")]
-        private static extern void SetLeaderboardScore(string leaderboardName, int score, Action successCallback, Action<IntPtr, int> errorCallback, string additionalData);
+        private static extern void SetLeaderboardScore(string leaderboardName, int score, Action successCallback, Action<IntPtr, int> errorCallback, string extraData);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnSetLeaderboardScoreSuccessCallback()
@@ -73,10 +58,10 @@ namespace YandexGames
 
         #region GetEntries
         /// <summary>
-        /// Returns result JSON as a string in onSuccessCallback - for now.
+        /// Returns a fully parsed result object in onSuccessCallback.
         /// </summary>
         /// <remarks>
-        /// Use <see cref="PlayerAccount.IsAuthorized"/> to avoid automatic authorization window popup.
+        /// Requires authorization. Use <see cref="PlayerAccount.Authorized"/> and <see cref="PlayerAccount.Authorize"/>.
         /// </remarks>
         public static void GetEntries(string leaderboardName, Action<LeaderboardGetEntriesResponse> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
         {

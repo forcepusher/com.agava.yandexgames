@@ -10,14 +10,14 @@ namespace YandexGames.Tests
         [UnitySetUp]
         public IEnumerator WaitForInitialization()
         {
-            yield return Leaderboard.WaitForInitialization();
+            yield return YandexGamesSdk.WaitForInitialization();
         }
 
         [Test]
         public void SetScoreShouldNotThrow()
         {
             Assert.DoesNotThrow(() => Leaderboard.SetScore("NonExistingBoard", 228));
-            Assert.DoesNotThrow(() => Leaderboard.SetScore("NonExistingBoard", 0, additionalData: "henlo"));
+            Assert.DoesNotThrow(() => Leaderboard.SetScore("NonExistingBoard", 0, extraData: "henlo"));
         }
 
         [UnityTest]

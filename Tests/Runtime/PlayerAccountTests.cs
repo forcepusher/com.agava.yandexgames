@@ -16,14 +16,33 @@ namespace YandexGames.Tests
         [Test]
         public void ShouldNotBeAuthorizedOnStart()
         {
-            Assert.IsFalse(PlayerAccount.IsAuthorized);
+            Assert.IsFalse(PlayerAccount.Authorized);
+        }
+
+        [Test]
+        public void ShouldNotHaveProfileDataPermission()
+        {
+            Assert.IsFalse(PlayerAccount.HasProfileDataPermission);
         }
 
         [UnityTest]
-        public IEnumerator AuthenticateShouldInvokeErrorCallback()
+        public IEnumerator AuthorizeShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            PlayerAccount.Authenticate(true, onErrorCallback: (message) => {
+            PlayerAccount.Authorize(onErrorCallback: (message) => {
+                callbackInvoked = true;
+            });
+
+            yield return new WaitForSecondsRealtime(1);
+
+            Assert.IsTrue(callbackInvoked);
+        }
+
+        [UnityTest]
+        public IEnumerator RequestProfileDataPermissionShouldInvokeErrorCallback()
+        {
+            bool callbackInvoked = false;
+            PlayerAccount.RequestProfileDataPermission(onErrorCallback: (message) => {
                 callbackInvoked = true;
             });
 

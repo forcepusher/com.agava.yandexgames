@@ -17,6 +17,13 @@ namespace YandexGames
         private static Action<string> s_onErrorCallback;
         private static Action s_onOfflineCallback;
 
+        /// <summary>
+        /// Shows the fullscreen ad banner.
+        /// </summary>
+        /// <remarks>
+        /// Could be used only once every 2 minutes (at the time of writing).
+        /// Otherwise calls onCloseCallback instantaneously.
+        /// </remarks>
         public static void Show(Action onOpenCallback = null, Action<bool> onCloseCallback = null,
             Action<string> onErrorCallback = null, Action onOfflineCallback = null)
         {
