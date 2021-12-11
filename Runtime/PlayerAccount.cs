@@ -11,51 +11,106 @@ namespace YandexGames
     /// </summary>
     public static class PlayerAccount
     {
-        private static Action s_onAuthenticatedCallback;
-        private static Action<string> s_onErrorCallback;
+        private static Action s_onAuthorizeSuccessCallback;
+        private static Action<string> s_onAuthorizeErrorCallback;
+        private static Action s_onRequestProfileDataPermissionSuccessCallback;
+        private static Action<string> s_onRequestProfileDataPermissionErrorCallback;
 
         /// <summary>
-        /// Use this before calling SDK methods that require authorization,
-        /// so you can avoid unexpected authorization window popups.
+        /// Use this before calling SDK methods that require authorization.
         /// </summary>
-        public static bool IsAuthorized => VerifyPlayerAccountAuthorization();
+        public static bool Authorized => CheckAuthorization();
 
         [DllImport("__Internal")]
-        private static extern bool VerifyPlayerAccountAuthorization();
+        private static extern bool CheckAuthorization();
 
-        /// <remarks>
-        /// Use <see cref="IsAuthorized"/> to avoid automatic authorization window popup.
-        /// </remarks>
-        public static void Authenticate(bool requestPermissions, Action onAuthenticatedCallback = null,
-            Action<string> onErrorCallback = null)
+
+        #region RequestProfileDataPermission
+        /// <summary>
+        /// Calls a scary authorization window upon the user. Be very afraid.
+        /// </summary>
+        public static void Authorize(Action onSuccessCallback = null, Action<string> onErrorCallback = null)
         {
-            s_onAuthenticatedCallback = onAuthenticatedCallback;
-            s_onErrorCallback = onErrorCallback;
+            s_onAuthorizeSuccessCallback = onSuccessCallback;
+            s_onAuthorizeErrorCallback = onErrorCallback;
 
-            AuthenticatePlayerAccount(requestPermissions, OnAuthenticatedCallback, OnAuthenticationErrorCallback);
+            Authorize(OnAuthorizeSuccessCallback, OnAuthorizeErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void AuthenticatePlayerAccount(bool requestPermissions, Action onAuthenticatedCallback, Action<IntPtr, int> errorCallback);
+        private static extern void Authorize(Action successCallback, Action<IntPtr, int> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
-        private static void OnAuthenticatedCallback()
+        private static void OnAuthorizeSuccessCallback()
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnAuthenticatedCallback)} invoked");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnAuthorizeSuccessCallback)} invoked");
 
-            s_onAuthenticatedCallback?.Invoke();
+            s_onAuthorizeSuccessCallback?.Invoke();
         }
 
         [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnAuthenticationErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        private static void OnAuthorizeErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
         {
             string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
 
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnAuthenticationErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnAuthorizeErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
-            s_onErrorCallback?.Invoke(errorMessage);
+            s_onAuthorizeErrorCallback?.Invoke(errorMessage);
         }
+        #endregion
+
+        #region HasProfileDataPermission
+        /// <summary>
+        /// Permission to use name and profile picture from the Yandex account.
+        /// </summary>
+        /// <remarks>
+        /// Requires authorization. Use <see cref="Authorized"/> and <see cref="Authorize"/>.
+        /// </remarks>
+        public static bool HasProfileDataPermission => CheckProfileDataPermission();
+
+        [DllImport("__Internal")]
+        private static extern bool CheckProfileDataPermission();
+        #endregion
+
+        #region RequestProfileDataPermission
+        /// <summary>
+        /// Be aware, if user rejects the request - you're not getting another chance.
+        /// </summary>
+        /// <remarks>
+        /// Requires authorization. Use <see cref="Authorized"/> and <see cref="Authorize"/>.
+        /// </remarks>
+        public static void RequestProfileDataPermission(Action onSuccessCallback = null, Action<string> onErrorCallback = null)
+        {
+            s_onRequestProfileDataPermissionSuccessCallback = onSuccessCallback;
+            s_onRequestProfileDataPermissionErrorCallback = onErrorCallback;
+
+            RequestProfileDataPermission(OnRequestProfileDataPermissionSuccessCallback, OnRequestProfileDataPermissionErrorCallback);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void RequestProfileDataPermission(Action successCallback, Action<IntPtr, int> errorCallback);
+
+        [MonoPInvokeCallback(typeof(Action))]
+        private static void OnRequestProfileDataPermissionSuccessCallback()
+        {
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnRequestProfileDataPermissionSuccessCallback)} invoked");
+
+            s_onRequestProfileDataPermissionSuccessCallback?.Invoke();
+        }
+
+        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
+        private static void OnRequestProfileDataPermissionErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        {
+            string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
+
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnRequestProfileDataPermissionErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+
+            s_onRequestProfileDataPermissionErrorCallback?.Invoke(errorMessage);
+        }
+        #endregion
     }
 }

@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -770}
+  m_AnchoredPosition: {x: 0, y: -200}
   m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &96017328
@@ -274,10 +274,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -326,13 +326,13 @@ RectTransform:
   m_Children:
   - {fileID: 1919294961}
   m_Father: {fileID: 2102737980}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 30, y: -230}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 30, y: 410}
   m_SizeDelta: {x: 400, y: 150}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &408170593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 487031770}
   - component: {fileID: 487031769}
   m_Layer: 5
-  m_Name: AuthenticateWithPermissionsButton
+  m_Name: RequestProfileDataPermissionButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -461,11 +461,11 @@ RectTransform:
   m_Father: {fileID: 2102737980}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 30, y: -50}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 30, y: 230}
   m_SizeDelta: {x: 400, y: 150}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &487031769
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,7 +512,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2102737976}
         m_TargetAssemblyTypeName: YandexGames.Samples.PlaytestingCanvas, Agava.YandexGames.Samples.Playtesting
-        m_MethodName: OnAuthenticateWithPermissionsButtonClick
+        m_MethodName: OnRequestProfileDataPermissionButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -763,10 +763,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 925422525}
   - component: {fileID: 925422524}
   m_Layer: 5
-  m_Name: AuthenticateButton
+  m_Name: AuthorizeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -817,11 +817,11 @@ RectTransform:
   m_Father: {fileID: 2102737980}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -30, y: -50}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -30, y: 230}
   m_SizeDelta: {x: 400, y: 150}
-  m_Pivot: {x: 1, y: 1}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &925422524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -868,7 +868,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2102737976}
         m_TargetAssemblyTypeName: YandexGames.Samples.PlaytestingCanvas, Agava.YandexGames.Samples.Playtesting
-        m_MethodName: OnAuthenticateButtonClick
+        m_MethodName: OnAuthorizeButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -948,13 +948,13 @@ RectTransform:
   m_Children:
   - {fileID: 1177442456}
   m_Father: {fileID: 2102737980}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 30, y: -410}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 30, y: 590}
   m_SizeDelta: {x: 400, y: 150}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &1131792409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1241,10 +1241,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1428,7 +1428,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -635}
+  m_AnchoredPosition: {x: 0, y: -75.00006}
   m_SizeDelta: {x: 1000, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1521266518
@@ -1453,10 +1453,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 104
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1532,10 +1532,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1543,7 +1543,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Authenticate + permissions
+  m_Text: Request profile data permission
 --- !u!222 &1603297121
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1564,7 +1564,7 @@ GameObject:
   - component: {fileID: 1717660118}
   - component: {fileID: 1717660117}
   m_Layer: 5
-  m_Name: IsAuthorizedText
+  m_Name: AuthorizationStatusText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1584,11 +1584,11 @@ RectTransform:
   m_Father: {fileID: 2102737980}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -30, y: -255}
-  m_SizeDelta: {x: 400, y: 100}
-  m_Pivot: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -30, y: 410}
+  m_SizeDelta: {x: 400, y: 150}
+  m_Pivot: {x: 1, y: 0}
 --- !u!114 &1717660117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1611,10 +1611,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 70
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1622,7 +1622,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: IsAuthorized
+  m_Text: Authorization status
 --- !u!222 &1717660118
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1690,10 +1690,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1709,6 +1709,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1919294960}
+  m_CullTransparentMesh: 1
+--- !u!1 &2034433855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2034433856}
+  - component: {fileID: 2034433858}
+  - component: {fileID: 2034433857}
+  m_Layer: 5
+  m_Name: ProfileDataPermissionStatusText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2034433856
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034433855}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2102737980}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: -30, y: 590}
+  m_SizeDelta: {x: 400, y: 150}
+  m_Pivot: {x: 1, y: 0}
+--- !u!114 &2034433857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034433855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 48
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 4
+    m_MaxSize: 70
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Profile data permission status
+--- !u!222 &2034433858
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2034433855}
   m_CullTransparentMesh: 1
 --- !u!1 &2102737975
 GameObject:
@@ -1742,7 +1821,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c5de85996737f488737e20891023ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isAuthorizedText: {fileID: 1717660117}
+  _authorizationStatusText: {fileID: 1717660117}
+  _profileDataPermissionStatusText: {fileID: 2034433857}
 --- !u!114 &2102737977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1823,6 +1903,7 @@ RectTransform:
   - {fileID: 925422523}
   - {fileID: 487031768}
   - {fileID: 1717660116}
+  - {fileID: 2034433856}
   - {fileID: 408170592}
   - {fileID: 1131792408}
   m_Father: {fileID: 0}
@@ -1845,7 +1926,7 @@ GameObject:
   - component: {fileID: 2111355134}
   - component: {fileID: 2111355133}
   m_Layer: 5
-  m_Name: StableAndReleasedText
+  m_Name: ReleasedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1867,7 +1948,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 307.01}
+  m_AnchoredPosition: {x: 0, y: 815}
   m_SizeDelta: {x: 1000, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2111355133
@@ -1892,10 +1973,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 104
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2037,10 +2118,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 50
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 4
     m_MaxSize: 62
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -2048,7 +2129,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Authenticate
+  m_Text: Authorize
 --- !u!222 &2135811615
 CanvasRenderer:
   m_ObjectHideFlags: 0

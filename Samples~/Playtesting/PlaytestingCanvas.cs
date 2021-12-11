@@ -10,7 +10,10 @@ namespace YandexGames.Samples
     public class PlaytestingCanvas : MonoBehaviour
     {
         [SerializeField]
-        private Text _isAuthorizedText;
+        private Text _authorizationStatusText;
+
+        [SerializeField]
+        private Text _profileDataPermissionStatusText;
 
         private void Awake()
         {
@@ -26,18 +29,20 @@ namespace YandexGames.Samples
             // Always wait for it if invoking something immediately in the first scene.
             yield return YandexGamesSdk.WaitForInitialization();
 
-            // Avoid unexpected authorization window popup that will freak out the user.
-            if (PlayerAccount.IsAuthorized)
-            {
-                // Authenticate silently without requesting photo and real name permissions.
-                PlayerAccount.Authenticate(false);
-            }
-
             while (true)
             {
-                _isAuthorizedText.color = PlayerAccount.IsAuthorized ? Color.green : Color.red;
+                _authorizationStatusText.color = PlayerAccount.Authorized ? Color.green : Color.red;
+
+                if (PlayerAccount.Authorized)
+                    _profileDataPermissionStatusText.color = PlayerAccount.HasProfileDataPermission ? Color.green : Color.red;
+
                 yield return new WaitForSecondsRealtime(0.25f);
             }
+        }
+
+        public void OnAuthorizeButtonClick()
+        {
+            PlayerAccount.Authorize();
         }
 
         public void OnShowInterestialButtonClick()
@@ -50,14 +55,9 @@ namespace YandexGames.Samples
             VideoAd.Show();
         }
 
-        public void OnAuthenticateButtonClick()
+        public void OnRequestProfileDataPermissionButtonClick()
         {
-            PlayerAccount.Authenticate(false);
-        }
-
-        public void OnAuthenticateWithPermissionsButtonClick()
-        {
-            PlayerAccount.Authenticate(true);
+            PlayerAccount.RequestProfileDataPermission();
         }
 
         public void OnSetLeaderboardScoreButtonClick()
@@ -69,11 +69,13 @@ namespace YandexGames.Samples
         {
             Leaderboard.GetEntries("PlaytestBoard", (result) =>
             {
-                // Use it
                 Debug.Log($"My rank = {result.userRank}");
                 foreach (var entry in result.entries)
                 {
-                    Debug.Log(entry.player.publicName + " " + entry.score);
+                    string name = entry.player.publicName;
+                    if (string.IsNullOrEmpty(name))
+                        name = "Anonymous";
+                    Debug.Log(name + " " + entry.score);
                 }
             });
         }

@@ -17,6 +17,12 @@ namespace YandexGames
         private static Action s_onCloseCallback;
         private static Action<string> s_onErrorCallback;
 
+        /// <summary>
+        /// Shows the rewarded video ad.
+        /// </summary>
+        /// <remarks>
+        /// Doesn't seem to have any call-per-minute limit (at the time of writing).
+        /// </remarks>
         public static void Show(Action onOpenCallback = null, Action onRewardedCallback = null,
             Action onCloseCallback = null, Action<string> onErrorCallback = null)
         {
