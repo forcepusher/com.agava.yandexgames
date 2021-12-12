@@ -4,25 +4,25 @@ using UnityEngine.Scripting;
 namespace YandexGames
 {
     [Serializable]
-    public class LeaderboardGetEntriesResponse
+    public class PlayerAccountProfileDataResponse
     {
         [field: Preserve]
-        public LeaderboardDescriptionResponse leaderboard;
+        public string lang;
         [field: Preserve]
-        public Range[] ranges;
+        public string publicName;
         [field: Preserve]
-        public int userRank;
+        public ScopePermissions scopePermissions;
         [field: Preserve]
-        public LeaderboardEntryResponse[] entries;
+        public string uniqueID;
 
 
         [Serializable]
-        public class Range
+        public class ScopePermissions
         {
             [field: Preserve]
-            public int start;
+            public string avatar;
             [field: Preserve]
-            public int size;
+            public string public_name;
         }
     }
 }

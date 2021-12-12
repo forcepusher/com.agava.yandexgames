@@ -22,7 +22,7 @@ namespace YandexGames.Tests
         [Test]
         public void ShouldNotHaveProfileDataPermission()
         {
-            Assert.IsFalse(PlayerAccount.HasProfileDataPermission);
+            Assert.IsFalse(PlayerAccount.HasPersonalProfileDataPermission);
         }
 
         [UnityTest]
@@ -42,7 +42,20 @@ namespace YandexGames.Tests
         public IEnumerator RequestProfileDataPermissionShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            PlayerAccount.RequestProfileDataPermission(onErrorCallback: (message) => {
+            PlayerAccount.RequestPersonalProfileDataPermission(onErrorCallback: (message) => {
+                callbackInvoked = true;
+            });
+
+            yield return new WaitForSecondsRealtime(1);
+
+            Assert.IsTrue(callbackInvoked);
+        }
+
+        [UnityTest]
+        public IEnumerator GetProfileDataShouldInvokeErrorCallback()
+        {
+            bool callbackInvoked = false;
+            PlayerAccount.GetProfileData(null, onErrorCallback: (message) => {
                 callbackInvoked = true;
             });
 
