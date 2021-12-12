@@ -13,7 +13,7 @@ namespace YandexGames.Samples
         private Text _authorizationStatusText;
 
         [SerializeField]
-        private Text _profileDataPermissionStatusText;
+        private Text _personalProfileDataPermissionStatusText;
 
         private void Awake()
         {
@@ -34,15 +34,10 @@ namespace YandexGames.Samples
                 _authorizationStatusText.color = PlayerAccount.Authorized ? Color.green : Color.red;
 
                 if (PlayerAccount.Authorized)
-                    _profileDataPermissionStatusText.color = PlayerAccount.HasProfileDataPermission ? Color.green : Color.red;
+                    _personalProfileDataPermissionStatusText.color = PlayerAccount.HasPersonalProfileDataPermission ? Color.green : Color.red;
 
                 yield return new WaitForSecondsRealtime(0.25f);
             }
-        }
-
-        public void OnAuthorizeButtonClick()
-        {
-            PlayerAccount.Authorize();
         }
 
         public void OnShowInterestialButtonClick()
@@ -55,9 +50,25 @@ namespace YandexGames.Samples
             VideoAd.Show();
         }
 
-        public void OnRequestProfileDataPermissionButtonClick()
+        public void OnAuthorizeButtonClick()
         {
-            PlayerAccount.RequestProfileDataPermission();
+            PlayerAccount.Authorize();
+        }
+
+        public void OnRequestPersonalProfileDataPermissionButtonClick()
+        {
+            PlayerAccount.RequestPersonalProfileDataPermission();
+        }
+
+        public void OnGetProfileDataButtonClick()
+        {
+            PlayerAccount.GetProfileData((result) =>
+            {
+                string name = result.publicName;
+                if (string.IsNullOrEmpty(name))
+                    name = "Anonymous";
+                Debug.Log($"My id = {result.uniqueID}, name = {name}");
+            });
         }
 
         public void OnSetLeaderboardScoreButtonClick()
@@ -77,6 +88,14 @@ namespace YandexGames.Samples
                         name = "Anonymous";
                     Debug.Log(name + " " + entry.score);
                 }
+            });
+        }
+
+        public void OnGetLeaderboardPlayerEntryButtonClick()
+        {
+            Leaderboard.GetPlayerEntry("PlaytestBoard", (result) =>
+            {
+                Debug.Log($"My rank = {result.rank}, score = {result.score}");
             });
         }
     }

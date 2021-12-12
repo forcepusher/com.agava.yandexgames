@@ -8,8 +8,8 @@ namespace YandexGames
     {
         [field: Preserve]
         public string appID;
-        //[field: Preserve]
-        //public bool default; // Nice trap, Yandex.
+        [field: Preserve]
+        public bool isDefault;
         [field: Preserve]
         public Description description;
         [field: Preserve]
