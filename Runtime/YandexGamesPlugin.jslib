@@ -231,7 +231,13 @@ const library = {
         dynCall('vii', successCallbackPtr, [entryUnmanagedString.bufferPtr, entryUnmanagedString.bufferSize]);
         _free(entryUnmanagedString.bufferPtr);
       }).catch(function (error) {
-        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+        if (error.code === 'LEADERBOARD_PLAYER_NOT_PRESENT') {
+          const nullUnmanagedString = yandexGames.allocateUnmanagedString('null');
+          dynCall('vi', successCallbackPtr, [nullUnmanagedString.bufferPtr]);
+          _free(nullUnmanagedString.bufferPtr);
+        } else {
+          yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+        }
       });
     },
 
