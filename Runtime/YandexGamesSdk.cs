@@ -22,23 +22,23 @@ namespace YandexGames
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
 #endif
         [DllImport("__Internal")]
-        private static extern bool Initialize();
+        private static extern bool YandexGamesSdkInitialize();
 
         /// <summary>
         /// SDK is initialized automatically on load.
         /// If either something fails or called way too early, this will return false.
         /// </summary>
-        public static bool Initialized => CheckSdkInitialization();
+        public static bool IsInitialized => GetYandexGamesSdkIsInitialized();
 
         [DllImport("__Internal")]
-        private static extern bool CheckSdkInitialization();
+        private static extern bool GetYandexGamesSdkIsInitialized();
 
         /// <summary>
-        /// Coroutine waiting for <see cref="Initialized"/> to return true.
+        /// Coroutine waiting for <see cref="IsInitialized"/> to return true.
         /// </summary>
         public static IEnumerator WaitForInitialization()
         {
-            while (!Initialized)
+            while (!IsInitialized)
                 yield return null;
         }
     }

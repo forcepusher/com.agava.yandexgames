@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
-using YandexGames.Utility;
 
 namespace YandexGames
 {
@@ -32,11 +31,11 @@ namespace YandexGames
             s_onCloseCallback = onCloseCallback;
             s_onErrorCallback = onErrorCallback;
 
-            ShowVideoAd(OnOpenCallback, OnRewardedCallback, OnCloseCallback, OnErrorCallback);
+            VideoAdShow(OnOpenCallback, OnRewardedCallback, OnCloseCallback, OnErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern bool ShowVideoAd(Action openCallback, Action rewardedCallback, Action closeCallback, Action<IntPtr, int> errorCallback);
+        private static extern bool VideoAdShow(Action openCallback, Action rewardedCallback, Action closeCallback, Action<string> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnOpenCallback()
@@ -65,11 +64,9 @@ namespace YandexGames
             s_onCloseCallback?.Invoke();
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnErrorCallback(string errorMessage)
         {
-            string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
-
             if (YandexGamesSdk.CallbackLogging)
                 Debug.Log($"{nameof(VideoAd)}.{nameof(OnErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
