@@ -16,7 +16,7 @@ namespace YandexGames.Tests
         [Test]
         public void ShouldNotBeAuthorizedOnStart()
         {
-            Assert.IsFalse(PlayerAccount.Authorized);
+            Assert.IsFalse(PlayerAccount.IsAuthorized);
         }
 
         [Test]

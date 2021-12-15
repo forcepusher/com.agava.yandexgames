@@ -2,7 +2,6 @@ using System;
 using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
-using YandexGames.Utility;
 
 namespace YandexGames
 {
@@ -21,21 +20,21 @@ namespace YandexGames
         /// <summary>
         /// Use this before calling SDK methods that require authorization.
         /// </summary>
-        public static bool Authorized => CheckAuthorization();
+        public static bool IsAuthorized => GetPlayerAccountIsAuthorized();
 
         [DllImport("__Internal")]
-        private static extern bool CheckAuthorization();
+        private static extern bool GetPlayerAccountIsAuthorized();
 
         /// <summary>
         /// Permission to use name and profile picture from the Yandex account.
         /// </summary>
         /// <remarks>
-        /// Requires authorization. Use <see cref="Authorized"/> and <see cref="Authorize"/>.
+        /// Requires authorization. Use <see cref="IsAuthorized"/> and <see cref="Authorize"/>.
         /// </remarks>
-        public static bool HasPersonalProfileDataPermission => CheckPersonalProfileDataPermission();
+        public static bool HasPersonalProfileDataPermission => GetPlayerAccountHasPersonalProfileDataPermission();
 
         [DllImport("__Internal")]
-        private static extern bool CheckPersonalProfileDataPermission();
+        private static extern bool GetPlayerAccountHasPersonalProfileDataPermission();
 
         #region Authorize
         /// <summary>
@@ -46,11 +45,11 @@ namespace YandexGames
             s_onAuthorizeSuccessCallback = onSuccessCallback;
             s_onAuthorizeErrorCallback = onErrorCallback;
 
-            Authorize(OnAuthorizeSuccessCallback, OnAuthorizeErrorCallback);
+            PlayerAccountAuthorize(OnAuthorizeSuccessCallback, OnAuthorizeErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void Authorize(Action successCallback, Action<IntPtr, int> errorCallback);
+        private static extern void PlayerAccountAuthorize(Action successCallback, Action<string> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnAuthorizeSuccessCallback()
@@ -61,11 +60,9 @@ namespace YandexGames
             s_onAuthorizeSuccessCallback?.Invoke();
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnAuthorizeErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnAuthorizeErrorCallback(string errorMessage)
         {
-            string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
-
             if (YandexGamesSdk.CallbackLogging)
                 Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnAuthorizeErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
@@ -79,18 +76,18 @@ namespace YandexGames
         /// </summary>
         /// <remarks>
         /// Be aware, if user rejects the request - it's permanent. The request window will never open again.<br/>
-        /// Requires authorization. Use <see cref="Authorized"/> and <see cref="Authorize"/>.
+        /// Requires authorization. Use <see cref="IsAuthorized"/> and <see cref="Authorize"/>.
         /// </remarks>
         public static void RequestPersonalProfileDataPermission(Action onSuccessCallback = null, Action<string> onErrorCallback = null)
         {
             s_onRequestPersonalProfileDataPermissionSuccessCallback = onSuccessCallback;
             s_onRequestPersonalProfileDataPermissionErrorCallback = onErrorCallback;
 
-            RequestPersonalProfileDataPermission(OnRequestPersonalProfileDataPermissionSuccessCallback, OnRequestPersonalProfileDataPermissionErrorCallback);
+            PlayerAccountRequestPersonalProfileDataPermission(OnRequestPersonalProfileDataPermissionSuccessCallback, OnRequestPersonalProfileDataPermissionErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void RequestPersonalProfileDataPermission(Action successCallback, Action<IntPtr, int> errorCallback);
+        private static extern void PlayerAccountRequestPersonalProfileDataPermission(Action successCallback, Action<string> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnRequestPersonalProfileDataPermissionSuccessCallback()
@@ -101,11 +98,9 @@ namespace YandexGames
             s_onRequestPersonalProfileDataPermissionSuccessCallback?.Invoke();
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnRequestPersonalProfileDataPermissionErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnRequestPersonalProfileDataPermissionErrorCallback(string errorMessage)
         {
-            string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
-
             if (YandexGamesSdk.CallbackLogging)
                 Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnRequestPersonalProfileDataPermissionErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
@@ -118,24 +113,22 @@ namespace YandexGames
         /// Will only return <see cref="PlayerAccountProfileDataResponse.uniqueID"/> unless <see cref="HasPersonalProfileDataPermission"/>.
         /// </summary>
         /// <remarks>
-        /// Requires authorization. Use <see cref="Authorized"/> and <see cref="Authorize"/>.
+        /// Requires authorization. Use <see cref="IsAuthorized"/> and <see cref="Authorize"/>.
         /// </remarks>
         public static void GetProfileData(Action<PlayerAccountProfileDataResponse> onSuccessCallback, Action<string> onErrorCallback = null)
         {
             s_onGetProfileDataSuccessCallback = onSuccessCallback;
             s_onGetProfileDataErrorCallback = onErrorCallback;
 
-            GetProfileData(OnGetProfileDataSuccessCallback, OnGetProfileDataErrorCallback);
+            PlayerAccountGetProfileData(OnGetProfileDataSuccessCallback, OnGetProfileDataErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void GetProfileData(Action<IntPtr, int> successCallback, Action<IntPtr, int> errorCallback);
+        private static extern void PlayerAccountGetProfileData(Action<string> successCallback, Action<string> errorCallback);
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnGetProfileDataSuccessCallback(IntPtr entryMessageBufferPtr, int entryMessageBufferLength)
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnGetProfileDataSuccessCallback(string profileDataResponseJson)
         {
-            string profileDataResponseJson = new UnmanagedString(entryMessageBufferPtr, entryMessageBufferLength).ToString();
-
             if (YandexGamesSdk.CallbackLogging)
                 Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetProfileDataSuccessCallback)} invoked, {nameof(profileDataResponseJson)} = {profileDataResponseJson}");
 
@@ -144,11 +137,9 @@ namespace YandexGames
             s_onGetProfileDataSuccessCallback?.Invoke(profileDataResponse);
         }
 
-        [MonoPInvokeCallback(typeof(Action<IntPtr, int>))]
-        private static void OnGetProfileDataErrorCallback(IntPtr errorMessageBufferPtr, int errorMessageBufferLength)
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnGetProfileDataErrorCallback(string errorMessage)
         {
-            string errorMessage = new UnmanagedString(errorMessageBufferPtr, errorMessageBufferLength).ToString();
-
             if (YandexGamesSdk.CallbackLogging)
                 Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetProfileDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
