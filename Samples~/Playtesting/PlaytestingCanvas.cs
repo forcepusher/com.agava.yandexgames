@@ -19,7 +19,6 @@ namespace YandexGames.Samples
         private void Awake()
         {
             YandexGamesSdk.CallbackLogging = true;
-            WebBackgroundMute.Enabled = true;
         }
 
         private IEnumerator Start()
@@ -40,6 +39,12 @@ namespace YandexGames.Samples
 
                 yield return new WaitForSecondsRealtime(0.25f);
             }
+        }
+
+        private void Update()
+        {
+            // Mute sounds when app is running in the background.
+            AudioListener.pause = WebApplication.InBackground;
         }
 
         public void OnShowInterestialButtonClick()
