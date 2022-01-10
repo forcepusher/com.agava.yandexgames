@@ -1,4 +1,5 @@
 using System.Collections;
+using Agava.YandexGames;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -17,7 +18,8 @@ namespace YandexGames.Tests
         public IEnumerator ShowShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            VideoAd.Show(onErrorCallback: (message) => {
+            VideoAd.Show(onErrorCallback: (message) =>
+            {
                 callbackInvoked = true;
             });
 

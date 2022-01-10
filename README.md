@@ -4,7 +4,8 @@ Make sure you have standalone [Git](https://git-scm.com/downloads) installed fir
 In Unity, open "Window" -> "Package Manager".  
 Click the "+" sign on top left corner -> "Add package from git URL..."  
 Paste this: `https://github.com/forcepusher/com.agava.yandexgames.git`  
-Find "Samples" in the package window click the "Import" button. Use it as a guide.  
+To install a specific version use a tag: `https://github.com/forcepusher/com.agava.yandexgames.git#8.0.0`  
+Find "Samples" in the package window and click the "Import" button. Use it as a guide.  
   
 This package automatically inserts YandexGames SDK script into HTML page at runtime and initializes itself. No need to mess with WebGLTemplates - just use the SDK methods.  
   

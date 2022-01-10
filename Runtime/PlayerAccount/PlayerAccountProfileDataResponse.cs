@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Scripting;
 
-namespace YandexGames
+namespace Agava.YandexGames
 {
     [Serializable]
     public class PlayerAccountProfileDataResponse

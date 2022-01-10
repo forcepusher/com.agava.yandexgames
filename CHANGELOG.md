@@ -1,3 +1,7 @@
+v8.0.0  
+Breaking changes:  
+- Added Agava prefix in front of all namespaces to comply with MSDN C# standard.  
+  
 v7.0.0  
 Breaking changes:  
 - WebBackgroundMute.Enable was replaced with WebApplication.InBackground property. Now you will have to manually set `AudioListener.pause = WebApplication.InBackground;` in an Update to achieve the same effect. Although now you can use it for anything rather than just muting the audio in the background.  
