@@ -6,7 +6,7 @@ using UnityEngine.Scripting;
 
 [assembly: AlwaysLinkAssembly]
 #endif
-namespace YandexGames
+namespace Agava.YandexGames
 {
     public static class YandexGamesSdk
     {
