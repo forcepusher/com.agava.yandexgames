@@ -25,6 +25,12 @@ namespace Agava.YandexGames
         /// </remarks>
         public static void SetScore(string leaderboardName, int score, Action onSuccessCallback = null, Action<string> onErrorCallback = null, string extraData = "")
         {
+            if (leaderboardName == null)
+                throw new ArgumentNullException(nameof(leaderboardName));
+
+            if (extraData == null)
+                extraData = string.Empty;
+
             s_onSetScoreSuccessCallback = onSuccessCallback;
             s_onSetScoreErrorCallback = onErrorCallback;
 
@@ -62,6 +68,9 @@ namespace Agava.YandexGames
         /// </remarks>
         public static void GetEntries(string leaderboardName, Action<LeaderboardGetEntriesResponse> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
         {
+            if (leaderboardName == null)
+                throw new ArgumentNullException(nameof(leaderboardName));
+
             s_onGetEntriesSuccessCallback = onSuccessCallback;
             s_onGetEntriesErrorCallback = onErrorCallback;
 
@@ -101,6 +110,9 @@ namespace Agava.YandexGames
         /// </remarks>
         public static void GetPlayerEntry(string leaderboardName, Action<LeaderboardEntryResponse> onSuccessCallback, Action<string> onErrorCallback = null)
         {
+            if (leaderboardName == null)
+                throw new ArgumentNullException(nameof(leaderboardName));
+
             s_onGetPlayerEntrySuccessCallback = onSuccessCallback;
             s_onGetPlayerEntryErrorCallback = onErrorCallback;
 

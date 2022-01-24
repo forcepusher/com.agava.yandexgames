@@ -9,7 +9,7 @@ namespace Agava.YandexGames
         [field: Preserve]
         public string appID;
         [field: Preserve]
-        public bool isDefault;
+        public bool @default;
         [field: Preserve]
         public Description description;
         [field: Preserve]
