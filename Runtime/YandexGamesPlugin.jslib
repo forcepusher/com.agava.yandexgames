@@ -150,7 +150,7 @@ const library = {
 
     playerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr) {
       if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('requestProfileDataPermission requires authorization. Assuming profile data permissions were not granted.');
+        console.error('playerAccountGetProfileData requires authorization. Assuming profile data permissions were not granted.');
         return;
       }
 
@@ -160,6 +160,35 @@ const library = {
         const profileDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(profileDataJson);
         dynCall('vi', successCallbackPtr, [profileDataUnmanagedStringPtr]);
         _free(profileDataUnmanagedStringPtr);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    playerAccountGetPlayerData: function (successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('playerAccountGetPlayerData requires authorization.');
+        return;
+      }
+
+      yandexGames.playerAccount.getData().then(function (playerData) {
+        const playerDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(JSON.stringify(playerData));
+        dynCall('vi', successCallbackPtr, [playerDataUnmanagedStringPtr]);
+        _free(playerDataUnmanagedStringPtr);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    playerAccountSetPlayerData: function (playerDataJson, successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('playerAccountSetPlayerData requires authorization.');
+        return;
+      }
+
+      var playerData = JSON.parse(playerDataJson);
+      yandexGames.playerAccount.setData(playerData, true).then(function () {
+        dynCall('v', successCallbackPtr, []);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
@@ -256,7 +285,7 @@ const library = {
       });
     },
 
-    allocateUnmanagedString: function(string) {
+    allocateUnmanagedString: function (string) {
       const stringBufferSize = lengthBytesUTF8(string) + 1;
       const stringBufferPtr = _malloc(stringBufferSize);
       stringToUTF8(string, stringBufferPtr, stringBufferSize);
@@ -303,6 +332,19 @@ const library = {
     yandexGames.throwIfSdkNotInitialized();
 
     yandexGames.playerAccountGetProfileData(successCallbackPtr, errorCallbackPtr);
+  },
+
+  PlayerAccountGetPlayerData: function (successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.playerAccountGetPlayerData(successCallbackPtr, errorCallbackPtr);
+  },
+
+  PlayerAccountSetPlayerData: function (playerDataJsonPtr, successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    const playerDataJson = UTF8ToString(playerDataJsonPtr);
+    yandexGames.playerAccountSetPlayerData(playerDataJson, successCallbackPtr, errorCallbackPtr);
   },
 
   InterestialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {

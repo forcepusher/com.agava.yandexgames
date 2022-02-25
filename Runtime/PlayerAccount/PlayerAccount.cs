@@ -16,6 +16,10 @@ namespace Agava.YandexGames
         private static Action<string> s_onRequestPersonalProfileDataPermissionErrorCallback;
         private static Action<PlayerAccountProfileDataResponse> s_onGetProfileDataSuccessCallback;
         private static Action<string> s_onGetProfileDataErrorCallback;
+        private static Action s_onSetPlayerDataSuccessCallback;
+        private static Action<string> s_onSetPlayerDataErrorCallback;
+        private static Action<string> s_onGetPlayerDataSuccessCallback;
+        private static Action<string> s_onGetPlayerDataErrorCallback;
 
         /// <summary>
         /// Use this before calling SDK methods that require authorization.
@@ -144,6 +148,79 @@ namespace Agava.YandexGames
                 Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetProfileDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
             s_onGetProfileDataErrorCallback?.Invoke(errorMessage);
+        }
+        #endregion
+
+        #region PlayerData
+        /// <summary>
+        /// Cloud save method, proxy for player.setData(), where "flush" setting is always true.
+        /// </summary>
+        public static void SetPlayerData(string playerDataJson, Action onSuccessCallback = null, Action<string> onErrorCallback = null)
+        {
+            if (playerDataJson == null)
+                throw new ArgumentNullException(nameof(playerDataJson));
+
+            if (string.IsNullOrEmpty(playerDataJson))
+                playerDataJson = "{}";
+
+            s_onSetPlayerDataSuccessCallback = onSuccessCallback;
+            s_onSetPlayerDataErrorCallback = onErrorCallback;
+
+            PlayerAccountSetPlayerData(playerDataJson, OnSetPlayerDataSuccessCallback, OnSetPlayerDataErrorCallback);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void PlayerAccountSetPlayerData(string playerDataJson, Action successCallback, Action<string> errorCallback);
+
+        [MonoPInvokeCallback(typeof(Action))]
+        private static void OnSetPlayerDataSuccessCallback()
+        {
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetPlayerDataSuccessCallback)} invoked");
+
+            s_onSetPlayerDataSuccessCallback?.Invoke();
+        }
+
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnSetPlayerDataErrorCallback(string errorMessage)
+        {
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetPlayerDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+
+            s_onSetPlayerDataErrorCallback?.Invoke(errorMessage);
+        }
+
+        /// <summary>
+        /// Loads cloud save data, proxy for player.getData().
+        /// </summary>
+        /// <param name="onSuccessCallback">Callback that returns unparsed JSON string.</param>
+        public static void GetPlayerData(Action<string> onSuccessCallback = null, Action<string> onErrorCallback = null)
+        {
+            s_onGetPlayerDataSuccessCallback = onSuccessCallback;
+            s_onGetPlayerDataErrorCallback = onErrorCallback;
+
+            PlayerAccountGetPlayerData(OnGetPlayerDataSuccessCallback, OnGetPlayerDataErrorCallback);
+        }
+
+        [DllImport("__Internal")]
+        private static extern void PlayerAccountGetPlayerData(Action<string> successCallback, Action<string> errorCallback);
+
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnGetPlayerDataSuccessCallback(string playerDataJson)
+        {
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetPlayerDataSuccessCallback)} invoked, {nameof(playerDataJson)} = {playerDataJson}");
+
+            s_onGetPlayerDataSuccessCallback?.Invoke(playerDataJson);
+        }
+
+        [MonoPInvokeCallback(typeof(Action<string>))]
+        private static void OnGetPlayerDataErrorCallback(string errorMessage)
+        {
+            if (YandexGamesSdk.CallbackLogging)
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetPlayerDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+
+            s_onGetPlayerDataErrorCallback?.Invoke(errorMessage);
         }
         #endregion
     }
