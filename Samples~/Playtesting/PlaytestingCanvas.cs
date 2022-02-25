@@ -21,6 +21,9 @@ namespace Agava.YandexGames.Samples
         [SerializeField]
         private Text _personalProfileDataPermissionStatusText;
 
+        [SerializeField]
+        private InputField _playerDataTextField;
+
         private void Awake()
         {
             YandexGamesSdk.CallbackLogging = true;
@@ -112,6 +115,16 @@ namespace Agava.YandexGames.Samples
                 else
                     Debug.Log($"My rank = {result.rank}, score = {result.score}");
             });
+        }
+
+        public void OnSetPlayerDataButtonClick()
+        {
+            PlayerAccount.SetPlayerData(_playerDataTextField.text);
+        }
+
+        public void OnGetPlayerDataButtonClick()
+        {
+            PlayerAccount.GetPlayerData((data) => _playerDataTextField.text = data);
         }
     }
 }

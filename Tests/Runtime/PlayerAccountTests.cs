@@ -67,5 +67,33 @@ namespace YandexGames.Tests
 
             Assert.IsTrue(callbackInvoked);
         }
+
+        [UnityTest]
+        public IEnumerator SetPlayerDataShouldInvokeErrorCallback()
+        {
+            bool callbackInvoked = false;
+            PlayerAccount.SetPlayerData(string.Empty, onErrorCallback: (message) =>
+            {
+                callbackInvoked = true;
+            });
+
+            yield return new WaitForSecondsRealtime(1);
+
+            Assert.IsTrue(callbackInvoked);
+        }
+
+        [UnityTest]
+        public IEnumerator GetPlayerDataShouldInvokeErrorCallback()
+        {
+            bool callbackInvoked = false;
+            PlayerAccount.GetPlayerData(onErrorCallback: (message) =>
+            {
+                callbackInvoked = true;
+            });
+
+            yield return new WaitForSecondsRealtime(1);
+
+            Assert.IsTrue(callbackInvoked);
+        }
     }
 }
