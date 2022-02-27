@@ -126,5 +126,10 @@ namespace Agava.YandexGames.Samples
         {
             PlayerAccount.GetPlayerData((data) => _playerDataTextField.text = data);
         }
+
+        public void OnGetDeviceTypeButtonClick()
+        {
+            Debug.Log($"DeviceType = {Device.Type}");
+        }
     }
 }

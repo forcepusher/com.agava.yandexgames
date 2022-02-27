@@ -83,6 +83,25 @@ const library = {
       return false;
     },
 
+    deviceGetType: function () {
+      const deviceType = yandexGames.sdk.deviceInfo.type;
+
+      switch (deviceType) {
+        case 'desktop':
+          return 0;
+        case 'mobile':
+          return 1;
+        case 'tablet':
+          return 2;
+        case 'tv':
+          return 3;
+        default:
+          console.error('Unexpected ysdk.deviceInfo response from Yandex. Assuming that it is desktop. deviceType = '
+            + JSON.stringify(deviceType));
+          return 0;
+      }
+    },
+
     playerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {
       if (yandexGames.isAuthorized) {
         console.error('Already authorized.');
@@ -302,6 +321,12 @@ const library = {
 
   GetYandexGamesSdkIsInitialized: function () {
     return yandexGames.isInitialized;
+  },
+
+  DeviceGetType: function () {
+    yandexGames.throwIfSdkNotInitialized();
+
+    return yandexGames.deviceGetType();
   },
 
   PlayerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {
