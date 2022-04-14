@@ -7,9 +7,9 @@ namespace Agava.YandexGames
         /// <summary>
         /// Proxy for `ysdk.deviceInfo.type` property.
         /// </summary>
-        public static DeviceType Type => (DeviceType)DeviceGetType();
+        public static DeviceType Type => (DeviceType)GetDeviceType();
 
         [DllImport("__Internal")]
-        private static extern int DeviceGetType();
+        private static extern int GetDeviceType();
     }
 }
