@@ -193,7 +193,10 @@ namespace Agava.YandexGames
         /// <summary>
         /// Loads cloud save data, proxy for player.getData().
         /// </summary>
-        /// <param name="onSuccessCallback">Callback that returns unparsed JSON string.</param>
+        /// <param name="onSuccessCallback">
+        /// Callback that returns unparsed JSON string.<br/>
+        /// If player does not have any data saved, an empty JSON "{}" is returned.
+        /// </param>
         public static void GetPlayerData(Action<string> onSuccessCallback = null, Action<string> onErrorCallback = null)
         {
             s_onGetPlayerDataSuccessCallback = onSuccessCallback;
