@@ -83,7 +83,13 @@ const library = {
       return false;
     },
 
-    deviceGetType: function () {
+    getYandexGamesSdkEnvironment: function () {
+      const environmentJson = JSON.stringify(yandexGames.sdk.environment);
+      const environmentJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(environmentJson);
+      return environmentJsonUnmanagedStringPtr;
+    },
+
+    getDeviceType: function () {
       const deviceType = yandexGames.sdk.deviceInfo.type;
 
       switch (deviceType) {
@@ -323,10 +329,14 @@ const library = {
     return yandexGames.isInitialized;
   },
 
-  DeviceGetType: function () {
+  GetYandexGamesSdkEnvironment: function () {
+    return yandexGames.getYandexGamesSdkEnvironment();
+  },
+
+  GetDeviceType: function () {
     yandexGames.throwIfSdkNotInitialized();
 
-    return yandexGames.deviceGetType();
+    return yandexGames.getDeviceType();
   },
 
   PlayerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {

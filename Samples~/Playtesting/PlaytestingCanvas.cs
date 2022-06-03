@@ -2,10 +2,7 @@
 
 using System.Collections;
 using Agava.YandexGames;
-using Agava.YandexGames;
 using Agava.YandexGames.Samples;
-using Agava.YandexGames.Samples;
-using Agava.YandexGames.Utility;
 using Agava.YandexGames.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -130,6 +127,11 @@ namespace Agava.YandexGames.Samples
         public void OnGetDeviceTypeButtonClick()
         {
             Debug.Log($"DeviceType = {Device.Type}");
+        }
+
+        public void OnGetEnvironmentButtonClick()
+        {
+            Debug.Log($"Environment = {JsonUtility.ToJson(YandexGamesSdk.Environment)}");
         }
     }
 }

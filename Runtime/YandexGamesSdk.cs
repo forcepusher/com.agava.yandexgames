@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
-#if UNITY_WEBGL && !UNITY_EDITOR
 using UnityEngine;
+#if UNITY_WEBGL && !UNITY_EDITOR
 using UnityEngine.Scripting;
 
 [assembly: AlwaysLinkAssembly]
@@ -32,6 +32,18 @@ namespace Agava.YandexGames
 
         [DllImport("__Internal")]
         private static extern bool GetYandexGamesSdkIsInitialized();
+
+        public static YandexGamesEnvironment Environment
+        {
+            get
+            {
+                string environmentJson = GetYandexGamesSdkEnvironment();
+                return JsonUtility.FromJson<YandexGamesEnvironment>(environmentJson);
+            }
+        }
+
+        [DllImport("__Internal")]
+        private static extern string GetYandexGamesSdkEnvironment();
 
         /// <summary>
         /// Coroutine waiting for <see cref="IsInitialized"/> to return true.
