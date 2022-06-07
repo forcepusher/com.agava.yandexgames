@@ -24,7 +24,10 @@ const library = {
 
           // The { scopes: false } ensures personal data permission request window won't pop up,
           const playerAccountInitializationPromise = sdk.getPlayer({ scopes: false }).then(function (playerAccount) {
-            yandexGames.isAuthorized = true;
+            if (playerAccount.getMode() !== 'lite') {
+              yandexGames.isAuthorized = true;
+            }
+
             // Always contains permission info. Contains personal data as well if permissions were granted before.
             yandexGames.playerAccount = playerAccount;
 

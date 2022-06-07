@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [8.3.1] - 2022-06-08  
+### Fixed  
+- PlayerAccount.IsAuthorized was broken due to recent YandexGames API changes. This update solves it.  
+  
 ## [8.3.0] - 2022-06-03  
 ### Added  
 - YandexGamesSdk.Environment data structure that proxies `ysdk.environment`.  
@@ -50,6 +54,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[8.3.1] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.0...8.3.1  
 [8.3.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.2.0...8.3.0  
 [8.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.1.0...8.2.0  
 [8.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.0.1...8.1.0  
