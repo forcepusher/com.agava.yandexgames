@@ -1,5 +1,7 @@
 # com.agava.yandexgames  
   
+[Try the SDK demo here.](https://yandex.ru/games/play/179973?draft=true)  
+  
 Make sure you have standalone [Git](https://git-scm.com/downloads) installed first.  
 In Unity, open "Window" -> "Package Manager".  
 Click the "+" sign on top left corner -> "Add package from git URL..."  
