@@ -6,19 +6,20 @@ using UnityEngine.TestTools;
 
 namespace YandexGames.Tests
 {
-    public class InterestialAdTests
+    public class InterstitialAdTests
     {
         [UnitySetUp]
-        public IEnumerator WaitForSdkInitialization()
+        public IEnumerator InitializeSdk()
         {
-            yield return YandexGamesSdk.WaitForInitialization();
+            if (!YandexGamesSdk.IsInitialized)
+                yield return YandexGamesSdk.Initialize(SdkTests.TrackSuccessCallback);
         }
 
         [UnityTest]
         public IEnumerator ShowShouldInvokeErrorCallback()
         {
             bool callbackInvoked = false;
-            InterestialAd.Show(onErrorCallback: (message) =>
+            InterstitialAd.Show(onErrorCallback: (message) =>
             {
                 callbackInvoked = true;
             });

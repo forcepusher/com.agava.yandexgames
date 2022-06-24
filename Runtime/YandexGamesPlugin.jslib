@@ -13,7 +13,14 @@ const library = {
 
     playerAccount: undefined,
 
-    yandexGamesSdkInitialize: function () {
+    isInitializeCalled: false,
+
+    yandexGamesSdkInitialize: function (successCallbackPtr) {
+      if (yandexGames.isInitializeCalled) {
+        return;
+      }
+      yandexGames.isInitializeCalled = true;
+
       const sdkScript = document.createElement('script');
       sdkScript.src = 'https://yandex.ru/games/sdk/v2';
       document.head.appendChild(sdkScript);
@@ -30,22 +37,15 @@ const library = {
 
             // Always contains permission info. Contains personal data as well if permissions were granted before.
             yandexGames.playerAccount = playerAccount;
-
-            // Catch the error that gets thrown when user is not authorized.
-            // This IS the intended way to check for player authorization, not even kidding:
-            // https://yandex.ru/dev/games/doc/dg/sdk/sdk-player.html#sdk-player__auth
-          }).catch(function () { });
+          }).catch(function () { throw new Error('PlayerAccount failed to initialize.'); });
 
           const leaderboardInitializationPromise = sdk.getLeaderboards().then(function (leaderboard) {
             yandexGames.leaderboard = leaderboard;
-          }).catch(function () { });
+          }).catch(function () { throw new Error('Leaderboard failed to initialize.'); });
 
           Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise]).then(function () {
-            if (yandexGames.leaderboard === undefined) {
-              throw new Error('Leaderboard caused Yandex Games SDK to fail initialization.');
-            }
-
             yandexGames.isInitialized = true;
+            dynCall('v', successCallbackPtr, []);
           });
         });
       }
@@ -53,7 +53,7 @@ const library = {
 
     throwIfSdkNotInitialized: function () {
       if (!yandexGames.isInitialized) {
-        throw new Error('SDK was not fast enough to initialize. Use YandexGamesSdk.Initialized or WaitForInitialization.');
+        throw new Error('SDK is not initialized. Invoke YandexGamesSdk.Initialize() coroutine and wait for it to finish.');
       }
     },
 
@@ -222,7 +222,7 @@ const library = {
       });
     },
 
-    interestialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
+    interstitialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
       yandexGames.sdk.adv.showFullscreenAdv({
         callbacks: {
           onOpen: function () {
@@ -324,8 +324,8 @@ const library = {
 
   // External C# calls.
 
-  YandexGamesSdkInitialize: function () {
-    yandexGames.yandexGamesSdkInitialize();
+  YandexGamesSdkInitialize: function (successCallbackPtr) {
+    yandexGames.yandexGamesSdkInitialize(successCallbackPtr);
   },
 
   GetYandexGamesSdkIsInitialized: function () {
@@ -385,10 +385,10 @@ const library = {
     yandexGames.playerAccountSetPlayerData(playerDataJson, successCallbackPtr, errorCallbackPtr);
   },
 
-  InterestialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
+  InterstitialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
     yandexGames.throwIfSdkNotInitialized();
 
-    yandexGames.interestialAdShow(openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr);
+    yandexGames.interstitialAdShow(openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr);
   },
 
   VideoAdShow: function (openCallbackPtr, rewardedCallbackPtr, closeCallbackPtr, errorCallbackPtr) {

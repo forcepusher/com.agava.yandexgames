@@ -8,7 +8,7 @@ namespace Agava.YandexGames
     /// <summary>
     /// Proxy for ysdk.adv.showFullscreenAdv() method in YandexGames SDK.
     /// </summary>
-    public static class InterestialAd
+    public static class InterstitialAd
     {
         // Mutable static fields - absolutely disgusting.
         private static Action s_onOpenCallback;
@@ -32,17 +32,17 @@ namespace Agava.YandexGames
             s_onErrorCallback = onErrorCallback;
             s_onOfflineCallback = onOfflineCallback;
 
-            InterestialAdShow(OnOpenCallback, OnCloseCallback, OnErrorCallback, OnOfflineCallback);
+            InterstitialAdShow(OnOpenCallback, OnCloseCallback, OnErrorCallback, OnOfflineCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern bool InterestialAdShow(Action openCallback, Action<bool> closeCallback, Action<string> errorCallback, Action offlineCallback);
+        private static extern bool InterstitialAdShow(Action openCallback, Action<bool> closeCallback, Action<string> errorCallback, Action offlineCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnOpenCallback()
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(InterestialAd)}.{nameof(OnOpenCallback)} invoked");
+                Debug.Log($"{nameof(InterstitialAd)}.{nameof(OnOpenCallback)} invoked");
 
             s_onOpenCallback?.Invoke();
         }
@@ -51,7 +51,7 @@ namespace Agava.YandexGames
         private static void OnCloseCallback(bool wasShown)
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(InterestialAd)}.{nameof(OnCloseCallback)} invoked, {nameof(wasShown)} = {wasShown}");
+                Debug.Log($"{nameof(InterstitialAd)}.{nameof(OnCloseCallback)} invoked, {nameof(wasShown)} = {wasShown}");
 
             s_onCloseCallback?.Invoke(wasShown);
         }
@@ -60,7 +60,7 @@ namespace Agava.YandexGames
         private static void OnErrorCallback(string errorMessage)
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(InterestialAd)}.{nameof(OnErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+                Debug.Log($"{nameof(InterstitialAd)}.{nameof(OnErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
             s_onErrorCallback?.Invoke(errorMessage);
         }
@@ -69,7 +69,7 @@ namespace Agava.YandexGames
         private static void OnOfflineCallback()
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(InterestialAd)}.{nameof(OnOfflineCallback)} invoked");
+                Debug.Log($"{nameof(InterstitialAd)}.{nameof(OnOfflineCallback)} invoked");
 
             s_onOfflineCallback?.Invoke();
         }
