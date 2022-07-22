@@ -41,6 +41,8 @@ namespace Agava.YandexGames.Samples
 
                 if (PlayerAccount.IsAuthorized)
                     _personalProfileDataPermissionStatusText.color = PlayerAccount.HasPersonalProfileDataPermission ? Color.green : Color.red;
+                else
+                    _personalProfileDataPermissionStatusText.color = Color.red;
 
                 yield return new WaitForSecondsRealtime(0.25f);
             }
@@ -52,9 +54,9 @@ namespace Agava.YandexGames.Samples
             AudioListener.pause = WebApplication.InBackground;
         }
 
-        public void OnShowInterestialButtonClick()
+        public void OnShowInterstitialButtonClick()
         {
-            InterestialAd.Show();
+            InterstitialAd.Show();
         }
 
         public void OnShowVideoButtonClick()

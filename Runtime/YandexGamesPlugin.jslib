@@ -30,10 +30,6 @@ const library = {
 
             // Always contains permission info. Contains personal data as well if permissions were granted before.
             yandexGames.playerAccount = playerAccount;
-
-            // Catch the error that gets thrown when user is not authorized.
-            // This IS the intended way to check for player authorization, not even kidding:
-            // https://yandex.ru/dev/games/doc/dg/sdk/sdk-player.html#sdk-player__auth
           }).catch(function () { });
 
           const leaderboardInitializationPromise = sdk.getLeaderboards().then(function (leaderboard) {
@@ -222,7 +218,7 @@ const library = {
       });
     },
 
-    interestialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
+    interstitialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
       yandexGames.sdk.adv.showFullscreenAdv({
         callbacks: {
           onOpen: function () {
@@ -385,10 +381,10 @@ const library = {
     yandexGames.playerAccountSetPlayerData(playerDataJson, successCallbackPtr, errorCallbackPtr);
   },
 
-  InterestialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
+  InterstitialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
     yandexGames.throwIfSdkNotInitialized();
 
-    yandexGames.interestialAdShow(openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr);
+    yandexGames.interstitialAdShow(openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr);
   },
 
   VideoAdShow: function (openCallbackPtr, rewardedCallbackPtr, closeCallbackPtr, errorCallbackPtr) {

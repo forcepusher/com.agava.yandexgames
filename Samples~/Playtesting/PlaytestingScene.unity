@@ -572,7 +572,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 52059680}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -1843,7 +1843,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Show interestial
+  m_Text: Show interstitial
 --- !u!222 &734907769
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2379,7 +2379,7 @@ GameObject:
   - component: {fileID: 1153636342}
   - component: {fileID: 1153636341}
   m_Layer: 5
-  m_Name: ShowInterestialButton
+  m_Name: ShowInterstitialButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2450,8 +2450,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2102737976}
-        m_TargetAssemblyTypeName: PlaytestingCanvas, Assembly-CSharp
-        m_MethodName: OnShowInterestialButtonClick
+        m_TargetAssemblyTypeName: Agava.YandexGames.Samples.PlaytestingCanvas, Agava.YandexGames.Samples.Playtesting
+        m_MethodName: OnShowInterstitialButtonClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
