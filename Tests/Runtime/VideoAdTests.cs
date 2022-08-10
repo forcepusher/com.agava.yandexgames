@@ -9,9 +9,10 @@ namespace YandexGames.Tests
     public class VideoAdTests
     {
         [UnitySetUp]
-        public IEnumerator WaitForSdkInitialization()
+        public IEnumerator InitializeSdk()
         {
-            yield return YandexGamesSdk.WaitForInitialization();
+            if (!YandexGamesSdk.IsInitialized)
+                yield return YandexGamesSdk.Initialize(SdkTests.TrackSuccessCallback);
         }
 
         [UnityTest]

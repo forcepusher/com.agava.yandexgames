@@ -9,9 +9,10 @@ namespace YandexGames.Tests
     public class LeaderboardTests
     {
         [UnitySetUp]
-        public IEnumerator WaitForInitialization()
+        public IEnumerator InitializeSdk()
         {
-            yield return YandexGamesSdk.WaitForInitialization();
+            if (!YandexGamesSdk.IsInitialized)
+                yield return YandexGamesSdk.Initialize(SdkTests.TrackSuccessCallback);
         }
 
         [Test]

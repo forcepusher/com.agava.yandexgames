@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [10.0.0] - 2022-08-10  
+### Added  
+- YandexGamesSdk.Initialize() now has onSuccessCallback and returns a coroutine waiting for initialization to finish.  
+  
+### Removed  
+- YandexGamesSdk.WaitForInitialization() is gone. Yield on YandexGamesSdk.Initialize() coroutine instead.  
+  
+### Changed  
+- The SDK is no longer initializing itself because developers often forget to use WaitForInitialization() coroutine.  
+This was leading to errors that were difficult to reproduce and detect. Now you have to call YandexGamesSdk.Initialize() on your own.  
+  
 ## [9.0.0] - 2022-07-22  
 ### Fixed  
 - Interstitial misspelling.  
@@ -58,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/9.0.0...10.0.0  
 [9.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.1...9.0.0  
 [8.3.1] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.0...8.3.1  
 [8.3.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.2.0...8.3.0  
