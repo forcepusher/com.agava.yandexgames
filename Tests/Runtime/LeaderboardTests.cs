@@ -1,10 +1,9 @@
 using System.Collections;
-using Agava.YandexGames;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-namespace YandexGames.Tests
+namespace Agava.YandexGames.Tests
 {
     public class LeaderboardTests
     {

@@ -1,9 +1,8 @@
 ﻿using System.Collections;
-using Agava.YandexGames;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 
-namespace YandexGames.Tests
+namespace Agava.YandexGames.Tests
 {
     public class DeviceTests
     {

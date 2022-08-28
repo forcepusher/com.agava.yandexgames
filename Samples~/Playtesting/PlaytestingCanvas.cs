@@ -3,7 +3,6 @@
 using System.Collections;
 using Agava.YandexGames;
 using Agava.YandexGames.Samples;
-using Agava.YandexGames.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -46,12 +45,6 @@ namespace Agava.YandexGames.Samples
 
                 yield return new WaitForSecondsRealtime(0.25f);
             }
-        }
-
-        private void Update()
-        {
-            // Mute sounds when app is running in the background.
-            AudioListener.pause = WebApplication.InBackground;
         }
 
         public void OnShowInterstitialButtonClick()
