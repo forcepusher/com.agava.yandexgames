@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [11.0.0] - 2022-08-29  
+### Removed  
+- WebApplication and WebEventSystem are now split into a separate [WebUtility](https://github.com/forcepusher/com.agava.webutility) package.  
+  
 ## [10.0.0] - 2022-08-10  
 ### Added  
 - YandexGamesSdk.Initialize() now has onSuccessCallback and returns a coroutine waiting for initialization to finish.  
@@ -69,6 +73,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[11.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/10.0.0...11.0.0  
 [10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/9.0.0...10.0.0  
 [9.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.1...9.0.0  
 [8.3.1] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.0...8.3.1  
