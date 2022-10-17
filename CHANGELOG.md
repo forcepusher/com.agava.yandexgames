@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [11.1.0] - 2023-01-20  
+### Added  
+- `StickyAd.Show()` and `StickyAd.Hide` methods for controlling StickyAd visibility at run time.  
+  
 ## [11.0.0] - 2022-08-29  
 ### Removed  
 - WebApplication and WebEventSystem are now split into a separate [WebUtility](https://github.com/forcepusher/com.agava.webutility) package.  
@@ -73,6 +77,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[11.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.0.0...11.1.0  
 [11.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/10.0.0...11.0.0  
 [10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/9.0.0...10.0.0  
 [9.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.1...9.0.0  

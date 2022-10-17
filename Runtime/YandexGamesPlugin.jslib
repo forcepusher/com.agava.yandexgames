@@ -260,6 +260,14 @@ const library = {
       });
     },
 
+    stickyAdShow: function() {
+      yandexGames.sdk.adv.showBannerAdv();
+    },
+
+    stickyAdHide: function() {
+      yandexGames.sdk.adv.hideBannerAdv();
+    },
+
     leaderboardSetScore: function (leaderboardName, score, successCallbackPtr, errorCallbackPtr, extraData) {
       if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
         console.error('leaderboardSetScore requires authorization.');
@@ -395,6 +403,18 @@ const library = {
     yandexGames.throwIfSdkNotInitialized();
 
     yandexGames.videoAdShow(openCallbackPtr, rewardedCallbackPtr, closeCallbackPtr, errorCallbackPtr);
+  },
+
+  StickyAdShow: function () {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.stickyAdShow();
+  },
+
+  StickyAdHide: function () {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.stickyAdHide();
   },
 
   LeaderboardSetScore: function (leaderboardNamePtr, score, successCallbackPtr, errorCallbackPtr, extraDataPtr) {
