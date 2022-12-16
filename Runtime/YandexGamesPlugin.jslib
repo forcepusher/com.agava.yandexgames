@@ -139,11 +139,6 @@ const library = {
     },
 
     getPlayerAccountHasPersonalProfileDataPermission: function () {
-      if (!yandexGames.isAuthorized) {
-        console.error('getPlayerAccountHasPersonalProfileDataPermission requires authorization. Assuming profile data permissions were not granted.');
-        return false;
-      }
-
       var publicNamePermission = undefined;
       if ('_personalInfo' in yandexGames.playerAccount && 'scopePermissions' in yandexGames.playerAccount._personalInfo) {
         publicNamePermission = yandexGames.playerAccount._personalInfo.scopePermissions.public_name;
@@ -164,11 +159,6 @@ const library = {
     },
 
     playerAccountRequestPersonalProfileDataPermission: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountRequestPersonalProfileDataPermission requires authorization. Assuming profile data permissions were not granted.');
-        return;
-      }
-
       yandexGames.sdk.getPlayer({ scopes: true }).then(function (playerAccount) {
         yandexGames.playerAccount = playerAccount;
 
@@ -183,11 +173,6 @@ const library = {
     },
 
     playerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountGetProfileData requires authorization. Assuming profile data permissions were not granted.');
-        return;
-      }
-
       yandexGames.sdk.getPlayer({ scopes: false }).then(function (playerAccount) {
         yandexGames.playerAccount = playerAccount;
         const profileDataJson = JSON.stringify(playerAccount._personalInfo);
@@ -200,11 +185,6 @@ const library = {
     },
 
     playerAccountGetPlayerData: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountGetPlayerData requires authorization.');
-        return;
-      }
-
       yandexGames.playerAccount.getData().then(function (playerData) {
         const playerDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(JSON.stringify(playerData));
         dynCall('vi', successCallbackPtr, [playerDataUnmanagedStringPtr]);
@@ -215,11 +195,6 @@ const library = {
     },
 
     playerAccountSetPlayerData: function (playerDataJson, successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountSetPlayerData requires authorization.');
-        return;
-      }
-
       var playerData = JSON.parse(playerDataJson);
       yandexGames.playerAccount.setData(playerData, true).then(function () {
         dynCall('v', successCallbackPtr, []);
