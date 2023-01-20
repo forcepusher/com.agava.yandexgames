@@ -57,6 +57,16 @@ namespace Agava.YandexGames.Samples
             VideoAd.Show();
         }
 
+        public void OnShowStickyAdButtonClick()
+        {
+            StickyAd.Show();
+        }
+
+        public void OnHideStickyAdButtonClick()
+        {
+            StickyAd.Hide();
+        }
+
         public void OnAuthorizeButtonClick()
         {
             PlayerAccount.Authorize();
