@@ -18,7 +18,10 @@ namespace Agava.YandexGames.Samples
         private Text _personalProfileDataPermissionStatusText;
 
         [SerializeField]
-        private InputField _playerDataTextField;
+        private InputField _cloudSaveDataInputField;
+
+        [SerializeField]
+        private InputField _productIdInputField;
 
         private void Awake()
         {
@@ -121,12 +124,12 @@ namespace Agava.YandexGames.Samples
 
         public void OnSetPlayerDataButtonClick()
         {
-            PlayerAccount.SetPlayerData(_playerDataTextField.text);
+            PlayerAccount.SetPlayerData(_cloudSaveDataInputField.text);
         }
 
         public void OnGetPlayerDataButtonClick()
         {
-            PlayerAccount.GetPlayerData((data) => _playerDataTextField.text = data);
+            PlayerAccount.GetPlayerData((data) => _cloudSaveDataInputField.text = data);
         }
 
         public void OnGetDeviceTypeButtonClick()

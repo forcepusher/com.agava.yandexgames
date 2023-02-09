@@ -13,6 +13,8 @@ const library = {
 
     playerAccount: undefined,
 
+    billing: undefined,
+
     isInitializeCalled: false,
 
     yandexGamesSdkInitialize: function (successCallbackPtr) {
@@ -43,7 +45,11 @@ const library = {
             yandexGames.leaderboard = leaderboard;
           }).catch(function () { throw new Error('Leaderboard failed to initialize.'); });
 
-          Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise]).then(function () {
+          const billingInitializationPromise = sdk.getPayments({ signed: true }).then(function (billing) {
+            yandexGames.billing = billing;
+          }).catch(function () { throw new Error('Billing failed to initialize.'); });
+
+          Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
             yandexGames.isInitialized = true;
             dynCall('v', successCallbackPtr, []);
           });
@@ -307,9 +313,9 @@ const library = {
 
       yandexGames.leaderboard.getLeaderboardPlayerEntry(leaderboardName).then(function (response) {
         const entryJson = JSON.stringify(response);
-        const entryUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entryJson);
-        dynCall('vi', successCallbackPtr, [entryUnmanagedStringPtr]);
-        _free(entryUnmanagedStringPtr);
+        const entryJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entryJson);
+        dynCall('vi', successCallbackPtr, [entryJsonUnmanagedStringPtr]);
+        _free(entryJsonUnmanagedStringPtr);
       }).catch(function (error) {
         if (error.code === 'LEADERBOARD_PLAYER_NOT_PRESENT') {
           const nullUnmanagedStringPtr = yandexGames.allocateUnmanagedString('null');
@@ -318,6 +324,73 @@ const library = {
         } else {
           yandexGames.invokeErrorCallback(error, errorCallbackPtr);
         }
+      });
+    },
+
+    billingPurchaseProduct: function (productId, successCallbackPtr, errorCallbackPtr, developerPayload) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('billingPurchaseProduct requires authorization.');
+        return;
+      }
+
+      yandexGames.billing.purchase({ id: productId, developerPayload: developerPayload }).then(function (purchaseResponse) {
+        purchaseResponse = { purchaseData: purchaseResponse.purchaseData, signature: purchaseResponse.signature };
+
+        const purchasedProductJson = JSON.stringify(purchaseResponse);
+        const purchasedProductJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductJson);
+        dynCall('vi', successCallbackPtr, [purchasedProductJsonUnmanagedStringPtr]);
+        _free(purchasedProductJsonUnmanagedStringPtr);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    billingConsumeProduct: function (purchasedProductToken, successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('billingConsumeProduct requires authorization.');
+        return;
+      }
+
+      yandexGames.billing.consumePurchase(purchasedProductToken).then(function (consumedProduct) {
+        dynCall('v', successCallbackPtr, []);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    billingGetProductCatalog: function (successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('billingGetProductCatalog requires authorization.');
+        return;
+      }
+
+      yandexGames.billing.getCatalog().then(function (productCatalogResponse) {
+        productCatalogResponse = { products: productCatalogResponse, signature: productCatalogResponse.signature };
+
+        const productCatalogJson = JSON.stringify(productCatalogResponse);
+        const productCatalogJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(productCatalogJson);
+        dynCall('vi', successCallbackPtr, [productCatalogJsonUnmanagedStringPtr]);
+        _free(productCatalogJsonUnmanagedStringPtr);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
+      });
+    },
+
+    billingGetPurchasedProducts: function (successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
+        console.error('billingGetPurchasedProducts requires authorization.');
+        return;
+      }
+
+      yandexGames.billing.getPurchases().then(function (purchasesResponse) {
+        purchasesResponse = { purchasedProducts: purchasesResponse, signature: purchasesResponse.signature };
+
+        const purchasedProductsJson = JSON.stringify(purchasesResponse);
+        const purchasedProductsJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductsJson);
+        dynCall('vi', successCallbackPtr, [purchasedProductsJsonUnmanagedStringPtr]);
+        _free(purchasedProductsJsonUnmanagedStringPtr);
+      }).catch(function (error) {
+        yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
     },
 
@@ -440,6 +513,34 @@ const library = {
 
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
     yandexGames.leaderboardGetPlayerEntry(leaderboardName, successCallbackPtr, errorCallbackPtr);
+  },
+
+  BillingPurchaseProduct: function (productIdPtr, successCallbackPtr, errorCallbackPtr, developerPayloadPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    const productId = UTF8ToString(productIdPtr);
+    var developerPayload = UTF8ToString(developerPayloadPtr);
+    if (developerPayload.length === 0) { developerPayload = undefined; }
+    yandexGames.billingPurchaseProduct(productId, successCallbackPtr, errorCallbackPtr, developerPayload);
+  },
+
+  BillingConsumeProduct: function (purchasedProductTokenPtr, successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    const purchasedProductToken = UTF8ToString(purchasedProductTokenPtr);
+    yandexGames.billingConsumeProduct(purchasedProductToken, successCallbackPtr, errorCallbackPtr);
+  },
+
+  BillingGetProductCatalog: function (successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.billingGetProductCatalog(successCallbackPtr, errorCallbackPtr);
+  },
+
+  BillingGetPurchasedProducts: function (successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.billingGetPurchasedProducts(successCallbackPtr, errorCallbackPtr);
   },
 }
 

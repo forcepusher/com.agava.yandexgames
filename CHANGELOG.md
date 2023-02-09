@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [11.2.0] - 2023-02-09  
+### Added  
+- `Billing` class for In-App purchases.  
+  
 ## [11.1.0] - 2023-01-20  
 ### Added  
 - `StickyAd.Show()` and `StickyAd.Hide` methods for controlling StickyAd visibility at run time.  
@@ -77,6 +81,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[11.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.1.0...11.2.0  
 [11.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.0.0...11.1.0  
 [11.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/10.0.0...11.0.0  
 [10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/9.0.0...10.0.0  

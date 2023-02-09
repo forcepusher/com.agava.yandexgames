@@ -7,18 +7,12 @@ namespace Agava.YandexGames
     /// </summary>
     public static class StickyAd
     {
-        public static void Show()
-        {
-            StickyAdShow();
-        }
+        public static void Show() => StickyAdShow();
 
         [DllImport("__Internal")]
         private static extern void StickyAdShow();
 
-        public static void Hide()
-        {
-            StickyAdHide();
-        }
+        public static void Hide() => StickyAdHide();
 
         [DllImport("__Internal")]
         private static extern void StickyAdHide();
