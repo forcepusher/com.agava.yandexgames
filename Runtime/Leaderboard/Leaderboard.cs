@@ -10,8 +10,10 @@ namespace Agava.YandexGames
         // This is what we deserve for using Unity.
         private static Action s_onSetScoreSuccessCallback;
         private static Action<string> s_onSetScoreErrorCallback;
+
         private static Action<LeaderboardGetEntriesResponse> s_onGetEntriesSuccessCallback;
         private static Action<string> s_onGetEntriesErrorCallback;
+
         private static Action<LeaderboardEntryResponse> s_onGetPlayerEntrySuccessCallback;
         private static Action<string> s_onGetPlayerEntryErrorCallback;
 

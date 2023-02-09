@@ -12,12 +12,16 @@ namespace Agava.YandexGames
     {
         private static Action s_onAuthorizeSuccessCallback;
         private static Action<string> s_onAuthorizeErrorCallback;
+
         private static Action s_onRequestPersonalProfileDataPermissionSuccessCallback;
         private static Action<string> s_onRequestPersonalProfileDataPermissionErrorCallback;
+
         private static Action<PlayerAccountProfileDataResponse> s_onGetProfileDataSuccessCallback;
         private static Action<string> s_onGetProfileDataErrorCallback;
+
         private static Action s_onSetPlayerDataSuccessCallback;
         private static Action<string> s_onSetPlayerDataErrorCallback;
+
         private static Action<string> s_onGetPlayerDataSuccessCallback;
         private static Action<string> s_onGetPlayerDataErrorCallback;
 
