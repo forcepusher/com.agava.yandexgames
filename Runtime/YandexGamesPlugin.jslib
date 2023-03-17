@@ -52,6 +52,7 @@ const library = {
           Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
             yandexGames.isInitialized = true;
             dynCall('v', successCallbackPtr, []);
+            yandexGames.sdk.features.LoadingAPI.ready();
           });
         });
       }
