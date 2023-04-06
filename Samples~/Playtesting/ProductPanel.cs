@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 using UnityEngine.UI;
 
 namespace Agava.YandexGames.Samples
@@ -22,19 +21,22 @@ namespace Agava.YandexGames.Samples
                 _product = value;
 
                 _productIdText.text = value.id;
-
+                
                 if (Uri.IsWellFormedUriString(value.imageURI, UriKind.Absolute))
                     StartCoroutine(DownloadAndSetProductImage(value.imageURI));
             }
         }
 
-        private IEnumerator DownloadAndSetProductImage(string imageUri)
+        private IEnumerator DownloadAndSetProductImage(string imageUrl)
         {
-            using (UnityWebRequest textureRequest = UnityWebRequestTexture.GetTexture(imageUri))
-            {
-                yield return textureRequest.SendWebRequest();
-                _productImage.texture = DownloadHandlerTexture.GetContent(textureRequest);
-            }
+            var remoteImage = new RemoteImage(imageUrl);
+            remoteImage.Download();
+
+            while (!remoteImage.IsDownloadFinished)
+                yield return null;
+
+            if (remoteImage.IsDownloadSuccessful)
+                _productImage.texture = remoteImage.Texture;
         }
 
         public void OnPurchaseButtonClick()

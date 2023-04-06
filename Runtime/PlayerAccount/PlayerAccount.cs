@@ -19,11 +19,11 @@ namespace Agava.YandexGames
         private static Action<PlayerAccountProfileDataResponse> s_onGetProfileDataSuccessCallback;
         private static Action<string> s_onGetProfileDataErrorCallback;
 
-        private static Action s_onSetPlayerDataSuccessCallback;
-        private static Action<string> s_onSetPlayerDataErrorCallback;
+        private static Action s_onSetCloudSaveDataSuccessCallback;
+        private static Action<string> s_onSetCloudSaveDataErrorCallback;
 
-        private static Action<string> s_onGetPlayerDataSuccessCallback;
-        private static Action<string> s_onGetPlayerDataErrorCallback;
+        private static Action<string> s_onGetCloudSaveDataSuccessCallback;
+        private static Action<string> s_onGetCloudSaveDataErrorCallback;
 
         /// <summary>
         /// Use this before calling SDK methods that require authorization.
@@ -123,16 +123,16 @@ namespace Agava.YandexGames
         /// <remarks>
         /// Requires authorization. Use <see cref="IsAuthorized"/> and <see cref="Authorize"/>.
         /// </remarks>
-        public static void GetProfileData(Action<PlayerAccountProfileDataResponse> onSuccessCallback, Action<string> onErrorCallback = null)
+        public static void GetProfileData(Action<PlayerAccountProfileDataResponse> onSuccessCallback, Action<string> onErrorCallback = null, ProfilePictureSize pictureSize = ProfilePictureSize.medium)
         {
             s_onGetProfileDataSuccessCallback = onSuccessCallback;
             s_onGetProfileDataErrorCallback = onErrorCallback;
 
-            PlayerAccountGetProfileData(OnGetProfileDataSuccessCallback, OnGetProfileDataErrorCallback);
+            PlayerAccountGetProfileData(OnGetProfileDataSuccessCallback, OnGetProfileDataErrorCallback, pictureSize.ToString());
         }
 
         [DllImport("__Internal")]
-        private static extern void PlayerAccountGetProfileData(Action<string> successCallback, Action<string> errorCallback);
+        private static extern void PlayerAccountGetProfileData(Action<string> successCallback, Action<string> errorCallback, string pictureSize);
 
         [MonoPInvokeCallback(typeof(Action<string>))]
         private static void OnGetProfileDataSuccessCallback(string profileDataResponseJson)
@@ -157,41 +157,41 @@ namespace Agava.YandexGames
 
         #region PlayerData
         /// <summary>
-        /// Cloud save method, proxy for player.setData(), where "flush" setting is always true.
+        /// Stores Cloud Save data in the player account. Proxy for player.setData() with "flush" setting set to true.
         /// </summary>
-        public static void SetPlayerData(string playerDataJson, Action onSuccessCallback = null, Action<string> onErrorCallback = null)
+        public static void SetCloudSaveData(string cloudSaveDataJson, Action onSuccessCallback = null, Action<string> onErrorCallback = null)
         {
-            if (playerDataJson == null)
-                throw new ArgumentNullException(nameof(playerDataJson));
+            if (cloudSaveDataJson == null)
+                throw new ArgumentNullException(nameof(cloudSaveDataJson));
 
-            if (string.IsNullOrEmpty(playerDataJson))
-                playerDataJson = "{}";
+            if (string.IsNullOrEmpty(cloudSaveDataJson))
+                cloudSaveDataJson = "{}";
 
-            s_onSetPlayerDataSuccessCallback = onSuccessCallback;
-            s_onSetPlayerDataErrorCallback = onErrorCallback;
+            s_onSetCloudSaveDataSuccessCallback = onSuccessCallback;
+            s_onSetCloudSaveDataErrorCallback = onErrorCallback;
 
-            PlayerAccountSetPlayerData(playerDataJson, OnSetPlayerDataSuccessCallback, OnSetPlayerDataErrorCallback);
+            PlayerAccountSetCloudSaveData(cloudSaveDataJson, OnSetCloudSaveDataSuccessCallback, OnSetCloudSaveDataErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void PlayerAccountSetPlayerData(string playerDataJson, Action successCallback, Action<string> errorCallback);
+        private static extern void PlayerAccountSetCloudSaveData(string cloudSaveDataJson, Action successCallback, Action<string> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
-        private static void OnSetPlayerDataSuccessCallback()
+        private static void OnSetCloudSaveDataSuccessCallback()
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetPlayerDataSuccessCallback)} invoked");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetCloudSaveDataSuccessCallback)} invoked");
 
-            s_onSetPlayerDataSuccessCallback?.Invoke();
+            s_onSetCloudSaveDataSuccessCallback?.Invoke();
         }
 
         [MonoPInvokeCallback(typeof(Action<string>))]
-        private static void OnSetPlayerDataErrorCallback(string errorMessage)
+        private static void OnSetCloudSaveDataErrorCallback(string errorMessage)
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetPlayerDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnSetCloudSaveDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
-            s_onSetPlayerDataErrorCallback?.Invoke(errorMessage);
+            s_onSetCloudSaveDataErrorCallback?.Invoke(errorMessage);
         }
 
         /// <summary>
@@ -201,33 +201,33 @@ namespace Agava.YandexGames
         /// Callback that returns unparsed JSON string.<br/>
         /// If player does not have any data saved, an empty JSON "{}" is returned.
         /// </param>
-        public static void GetPlayerData(Action<string> onSuccessCallback = null, Action<string> onErrorCallback = null)
+        public static void GetCloudSaveData(Action<string> onSuccessCallback = null, Action<string> onErrorCallback = null)
         {
-            s_onGetPlayerDataSuccessCallback = onSuccessCallback;
-            s_onGetPlayerDataErrorCallback = onErrorCallback;
+            s_onGetCloudSaveDataSuccessCallback = onSuccessCallback;
+            s_onGetCloudSaveDataErrorCallback = onErrorCallback;
 
-            PlayerAccountGetPlayerData(OnGetPlayerDataSuccessCallback, OnGetPlayerDataErrorCallback);
+            PlayerAccountGetCloudSaveData(OnGetCloudSaveDataSuccessCallback, OnGetCloudSaveDataErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void PlayerAccountGetPlayerData(Action<string> successCallback, Action<string> errorCallback);
+        private static extern void PlayerAccountGetCloudSaveData(Action<string> successCallback, Action<string> errorCallback);
 
         [MonoPInvokeCallback(typeof(Action<string>))]
-        private static void OnGetPlayerDataSuccessCallback(string playerDataJson)
+        private static void OnGetCloudSaveDataSuccessCallback(string playerDataJson)
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetPlayerDataSuccessCallback)} invoked, {nameof(playerDataJson)} = {playerDataJson}");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetCloudSaveDataSuccessCallback)} invoked, {nameof(playerDataJson)} = {playerDataJson}");
 
-            s_onGetPlayerDataSuccessCallback?.Invoke(playerDataJson);
+            s_onGetCloudSaveDataSuccessCallback?.Invoke(playerDataJson);
         }
 
         [MonoPInvokeCallback(typeof(Action<string>))]
-        private static void OnGetPlayerDataErrorCallback(string errorMessage)
+        private static void OnGetCloudSaveDataErrorCallback(string errorMessage)
         {
             if (YandexGamesSdk.CallbackLogging)
-                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetPlayerDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
+                Debug.Log($"{nameof(PlayerAccount)}.{nameof(OnGetCloudSaveDataErrorCallback)} invoked, {nameof(errorMessage)} = {errorMessage}");
 
-            s_onGetPlayerDataErrorCallback?.Invoke(errorMessage);
+            s_onGetCloudSaveDataErrorCallback?.Invoke(errorMessage);
         }
         #endregion
     }

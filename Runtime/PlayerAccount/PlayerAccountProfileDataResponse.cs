@@ -7,14 +7,15 @@ namespace Agava.YandexGames
     public class PlayerAccountProfileDataResponse
     {
         [field: Preserve]
+        public string uniqueID;
+        [field: Preserve]
         public string lang;
         [field: Preserve]
         public string publicName;
         [field: Preserve]
-        public ScopePermissions scopePermissions;
+        public string profilePicture;
         [field: Preserve]
-        public string uniqueID;
-
+        public ScopePermissions scopePermissions;
 
         [Serializable]
         public class ScopePermissions

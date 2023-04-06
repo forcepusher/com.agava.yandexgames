@@ -68,7 +68,7 @@ namespace Agava.YandexGames
         /// <remarks>
         /// Requires authorization. Use <see cref="PlayerAccount.IsAuthorized"/> and <see cref="PlayerAccount.Authorize"/>.
         /// </remarks>
-        public static void GetEntries(string leaderboardName, Action<LeaderboardGetEntriesResponse> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true)
+        public static void GetEntries(string leaderboardName, Action<LeaderboardGetEntriesResponse> onSuccessCallback, Action<string> onErrorCallback = null, int topPlayersCount = 5, int competingPlayersCount = 5, bool includeSelf = true, ProfilePictureSize pictureSize = ProfilePictureSize.medium)
         {
             if (leaderboardName == null)
                 throw new ArgumentNullException(nameof(leaderboardName));
@@ -76,11 +76,11 @@ namespace Agava.YandexGames
             s_onGetEntriesSuccessCallback = onSuccessCallback;
             s_onGetEntriesErrorCallback = onErrorCallback;
 
-            LeaderboardGetEntries(leaderboardName, OnGetEntriesSuccessCallback, OnGetEntriesErrorCallback, topPlayersCount, competingPlayersCount, includeSelf);
+            LeaderboardGetEntries(leaderboardName, OnGetEntriesSuccessCallback, OnGetEntriesErrorCallback, topPlayersCount, competingPlayersCount, includeSelf, pictureSize.ToString());
         }
 
         [DllImport("__Internal")]
-        private static extern void LeaderboardGetEntries(string leaderboardName, Action<string> successCallback, Action<string> errorCallback, int topPlayersCount, int competingPlayersCount, bool includeSelf);
+        private static extern void LeaderboardGetEntries(string leaderboardName, Action<string> successCallback, Action<string> errorCallback, int topPlayersCount, int competingPlayersCount, bool includeSelf, string pictureSize);
 
         [MonoPInvokeCallback(typeof(Action<string>))]
         private static void OnGetEntriesSuccessCallback(string entriesResponseJson)
@@ -110,7 +110,7 @@ namespace Agava.YandexGames
         /// <remarks>
         /// Requires authorization. Use <see cref="PlayerAccount.IsAuthorized"/> and <see cref="PlayerAccount.Authorize"/>.
         /// </remarks>
-        public static void GetPlayerEntry(string leaderboardName, Action<LeaderboardEntryResponse> onSuccessCallback, Action<string> onErrorCallback = null)
+        public static void GetPlayerEntry(string leaderboardName, Action<LeaderboardEntryResponse> onSuccessCallback, Action<string> onErrorCallback = null, ProfilePictureSize pictureSize = ProfilePictureSize.medium)
         {
             if (leaderboardName == null)
                 throw new ArgumentNullException(nameof(leaderboardName));
@@ -118,11 +118,11 @@ namespace Agava.YandexGames
             s_onGetPlayerEntrySuccessCallback = onSuccessCallback;
             s_onGetPlayerEntryErrorCallback = onErrorCallback;
 
-            LeaderboardGetPlayerEntry(leaderboardName, OnGetPlayerEntrySuccessCallback, OnGetPlayerEntryErrorCallback);
+            LeaderboardGetPlayerEntry(leaderboardName, OnGetPlayerEntrySuccessCallback, OnGetPlayerEntryErrorCallback, pictureSize.ToString());
         }
 
         [DllImport("__Internal")]
-        private static extern void LeaderboardGetPlayerEntry(string leaderboardName, Action<string> successCallback, Action<string> errorCallback);
+        private static extern void LeaderboardGetPlayerEntry(string leaderboardName, Action<string> successCallback, Action<string> errorCallback, string pictureSize);
 
         [MonoPInvokeCallback(typeof(Action<string>))]
         private static void OnGetPlayerEntrySuccessCallback(string entryResponseJson)

@@ -140,11 +140,6 @@ const library = {
     },
 
     getPlayerAccountHasPersonalProfileDataPermission: function () {
-      if (!yandexGames.isAuthorized) {
-        console.error('getPlayerAccountHasPersonalProfileDataPermission requires authorization. Assuming profile data permissions were not granted.');
-        return false;
-      }
-
       var publicNamePermission = undefined;
       if ('_personalInfo' in yandexGames.playerAccount && 'scopePermissions' in yandexGames.playerAccount._personalInfo) {
         publicNamePermission = yandexGames.playerAccount._personalInfo.scopePermissions.public_name;
@@ -165,11 +160,6 @@ const library = {
     },
 
     playerAccountRequestPersonalProfileDataPermission: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountRequestPersonalProfileDataPermission requires authorization. Assuming profile data permissions were not granted.');
-        return;
-      }
-
       yandexGames.sdk.getPlayer({ scopes: true }).then(function (playerAccount) {
         yandexGames.playerAccount = playerAccount;
 
@@ -183,14 +173,12 @@ const library = {
       });
     },
 
-    playerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountGetProfileData requires authorization. Assuming profile data permissions were not granted.');
-        return;
-      }
-
+    playerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr, pictureSize) {
       yandexGames.sdk.getPlayer({ scopes: false }).then(function (playerAccount) {
         yandexGames.playerAccount = playerAccount;
+
+        playerAccount._personalInfo.profilePicture = playerAccount.getPhoto(pictureSize);
+
         const profileDataJson = JSON.stringify(playerAccount._personalInfo);
         const profileDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(profileDataJson);
         dynCall('vi', successCallbackPtr, [profileDataUnmanagedStringPtr]);
@@ -200,29 +188,19 @@ const library = {
       });
     },
 
-    playerAccountGetPlayerData: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountGetPlayerData requires authorization.');
-        return;
-      }
-
-      yandexGames.playerAccount.getData().then(function (playerData) {
-        const playerDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(JSON.stringify(playerData));
-        dynCall('vi', successCallbackPtr, [playerDataUnmanagedStringPtr]);
-        _free(playerDataUnmanagedStringPtr);
+    playerAccountGetCloudSaveData: function (successCallbackPtr, errorCallbackPtr) {
+      yandexGames.playerAccount.getData().then(function (сloudSaveData) {
+        const сloudSaveDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(JSON.stringify(сloudSaveData));
+        dynCall('vi', successCallbackPtr, [сloudSaveDataUnmanagedStringPtr]);
+        _free(сloudSaveDataUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
     },
 
-    playerAccountSetPlayerData: function (playerDataJson, successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('playerAccountSetPlayerData requires authorization.');
-        return;
-      }
-
-      var playerData = JSON.parse(playerDataJson);
-      yandexGames.playerAccount.setData(playerData, true).then(function () {
+    playerAccountSetCloudSaveData: function (сloudSaveDataJson, successCallbackPtr, errorCallbackPtr) {
+      var сloudSaveData = JSON.parse(сloudSaveDataJson);
+      yandexGames.playerAccount.setData(сloudSaveData, true).then(function () {
         dynCall('v', successCallbackPtr, []);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -288,7 +266,7 @@ const library = {
       });
     },
 
-    leaderboardGetEntries: function (leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf) {
+    leaderboardGetEntries: function (leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf, pictureSize) {
       if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
         console.error('leaderboardGetEntries requires authorization.');
         return;
@@ -297,6 +275,10 @@ const library = {
       yandexGames.leaderboard.getLeaderboardEntries(leaderboardName, {
         includeUser: includeSelf, quantityAround: competingPlayersCount, quantityTop: topPlayersCount
       }).then(function (response) {
+        response.entries.forEach(function(entry) {
+          entry.player.profilePicture = entry.player.getAvatarSrc({ size: pictureSize });
+        });
+
         const entriesJson = JSON.stringify(response);
         const entriesUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entriesJson);
         dynCall('vi', successCallbackPtr, [entriesUnmanagedStringPtr]);
@@ -306,13 +288,15 @@ const library = {
       });
     },
 
-    leaderboardGetPlayerEntry: function (leaderboardName, successCallbackPtr, errorCallbackPtr) {
+    leaderboardGetPlayerEntry: function (leaderboardName, successCallbackPtr, errorCallbackPtr, pictureSize) {
       if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
         console.error('leaderboardGetPlayerEntry requires authorization.');
         return;
       }
 
       yandexGames.leaderboard.getLeaderboardPlayerEntry(leaderboardName).then(function (response) {
+        response.player.profilePicture = response.player.getAvatarSrc({ size: pictureSize });
+
         const entryJson = JSON.stringify(response);
         const entryJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entryJson);
         dynCall('vi', successCallbackPtr, [entryJsonUnmanagedStringPtr]);
@@ -448,23 +432,26 @@ const library = {
     yandexGames.playerAccountRequestPersonalProfileDataPermission(successCallbackPtr, errorCallbackPtr);
   },
 
-  PlayerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr) {
+  PlayerAccountGetProfileData: function (successCallbackPtr, errorCallbackPtr, pictureSizePtr) {
     yandexGames.throwIfSdkNotInitialized();
 
-    yandexGames.playerAccountGetProfileData(successCallbackPtr, errorCallbackPtr);
+    const pictureSize = UTF8ToString(pictureSizePtr);
+
+    yandexGames.playerAccountGetProfileData(successCallbackPtr, errorCallbackPtr, pictureSize);
   },
 
-  PlayerAccountGetPlayerData: function (successCallbackPtr, errorCallbackPtr) {
+  PlayerAccountGetCloudSaveData: function (successCallbackPtr, errorCallbackPtr) {
     yandexGames.throwIfSdkNotInitialized();
 
-    yandexGames.playerAccountGetPlayerData(successCallbackPtr, errorCallbackPtr);
+    yandexGames.playerAccountGetCloudSaveData(successCallbackPtr, errorCallbackPtr);
   },
 
-  PlayerAccountSetPlayerData: function (playerDataJsonPtr, successCallbackPtr, errorCallbackPtr) {
+  PlayerAccountSetCloudSaveData: function (сloudSaveDataJsonPtr, successCallbackPtr, errorCallbackPtr) {
     yandexGames.throwIfSdkNotInitialized();
 
-    const playerDataJson = UTF8ToString(playerDataJsonPtr);
-    yandexGames.playerAccountSetPlayerData(playerDataJson, successCallbackPtr, errorCallbackPtr);
+    const сloudSaveDataJson = UTF8ToString(сloudSaveDataJsonPtr);
+
+    yandexGames.playerAccountSetCloudSaveData(сloudSaveDataJson, successCallbackPtr, errorCallbackPtr);
   },
 
   InterstitialAdShow: function (openCallbackPtr, closeCallbackPtr, errorCallbackPtr, offlineCallbackPtr) {
@@ -497,23 +484,28 @@ const library = {
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
     var extraData = UTF8ToString(extraDataPtr);
     if (extraData.length === 0) { extraData = undefined; }
+
     yandexGames.leaderboardSetScore(leaderboardName, score, successCallbackPtr, errorCallbackPtr, extraData);
   },
 
-  LeaderboardGetEntries: function (leaderboardNamePtr, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf) {
+  LeaderboardGetEntries: function (leaderboardNamePtr, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf, pictureSizePtr) {
     yandexGames.throwIfSdkNotInitialized();
 
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
     // Booleans are transferred as either 1 or 0, so using !! to convert them to true or false.
     includeSelf = !!includeSelf;
-    yandexGames.leaderboardGetEntries(leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf);
+    const pictureSize = UTF8ToString(pictureSizePtr);
+
+    yandexGames.leaderboardGetEntries(leaderboardName, successCallbackPtr, errorCallbackPtr, topPlayersCount, competingPlayersCount, includeSelf, pictureSize);
   },
 
-  LeaderboardGetPlayerEntry: function (leaderboardNamePtr, successCallbackPtr, errorCallbackPtr) {
+  LeaderboardGetPlayerEntry: function (leaderboardNamePtr, successCallbackPtr, errorCallbackPtr, pictureSizePtr) {
     yandexGames.throwIfSdkNotInitialized();
 
     const leaderboardName = UTF8ToString(leaderboardNamePtr);
-    yandexGames.leaderboardGetPlayerEntry(leaderboardName, successCallbackPtr, errorCallbackPtr);
+    const pictureSize = UTF8ToString(pictureSizePtr);
+
+    yandexGames.leaderboardGetPlayerEntry(leaderboardName, successCallbackPtr, errorCallbackPtr, pictureSize);
   },
 
   BillingPurchaseProduct: function (productIdPtr, successCallbackPtr, errorCallbackPtr, developerPayloadPtr) {
@@ -522,6 +514,7 @@ const library = {
     const productId = UTF8ToString(productIdPtr);
     var developerPayload = UTF8ToString(developerPayloadPtr);
     if (developerPayload.length === 0) { developerPayload = undefined; }
+
     yandexGames.billingPurchaseProduct(productId, successCallbackPtr, errorCallbackPtr, developerPayload);
   },
 
@@ -529,6 +522,7 @@ const library = {
     yandexGames.throwIfSdkNotInitialized();
 
     const purchasedProductToken = UTF8ToString(purchasedProductTokenPtr);
+
     yandexGames.billingConsumeProduct(purchasedProductToken, successCallbackPtr, errorCallbackPtr);
   },
 

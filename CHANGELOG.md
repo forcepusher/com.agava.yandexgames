@@ -4,9 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [12.0.0] - 2023-04-06  
+### Added  
+- Profile pictures now will be fetched with `PlayerAccount.GetProfileData()`, `Leaderboard.GetPlayerEntry` and `GetEntries` methods.  
+Find profile picture URLs in `PlayerAccountProfileDataResponse.profilePicture` and download it via `RemoteImage` class.  
+  
+### Changed  
+- `PlayerAccount.SetPlayerData` and `GetPlayerData` are renamed to `PlayerAccount.SetCloudSaveData` and `GetCloudSaveData`.  
+- Removed redundant authorization requirement for these methods: `PlayerAccount.HasPersonalProfileDataPermission()`,  `RequestPersonalProfileDataPermission()`, `GetProfileData()`, `GetPlayerData()`, `SetPlayerData()`.  
+  
 ## [11.2.1] - 2023-03-17  
 ### Fixed  
-- The SDK now calls `ysdk.features.LoadingAPI.ready` method when initialization is complete.
+- The SDK now calls `ysdk.features.LoadingAPI.ready` method when initialization is complete.  
   
 ## [11.2.0] - 2023-02-09  
 ### Added  
@@ -85,6 +94,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[12.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.1...12.0.0  
 [11.2.1] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.0...11.2.1  
 [11.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.1.0...11.2.0  
 [11.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.0.0...11.1.0  
