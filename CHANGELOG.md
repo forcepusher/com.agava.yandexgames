@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [12.0.1] - 2023-04-06  
+### Fixed  
+- Fixed an exploit where disabling internet connection causes rewarded video ads to immediately grant a reward without showing an ad.  
+  
 ## [12.0.0] - 2023-04-06  
 ### Added  
 - Profile pictures now will be fetched with `PlayerAccount.GetProfileData()`, `Leaderboard.GetPlayerEntry` and `GetEntries` methods.  
@@ -94,21 +98,16 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[12.0.1] https://github.com/forcepusher/com.agava.yandexgames/compare/12.0.0...12.0.1  
 [12.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.1...12.0.0  
 [11.2.1] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.0...11.2.1  
 [11.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.1.0...11.2.0  
 [11.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.0.0...11.1.0  
 [11.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/10.0.0...11.0.0  
-[10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/9.0.0...10.0.0  
-[9.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.1...9.0.0  
+[10.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.1...10.0.0  
 [8.3.1] https://github.com/forcepusher/com.agava.yandexgames/compare/8.3.0...8.3.1  
 [8.3.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.2.0...8.3.0  
 [8.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.1.0...8.2.0  
 [8.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/8.0.1...8.1.0  
 [8.0.1] https://github.com/forcepusher/com.agava.yandexgames/compare/8.0.0...8.0.1  
-[8.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/7.0.0...8.0.0  
-[7.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/6.0.0...7.0.0  
-[6.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/5.0.1...6.0.0  
-[5.0.1] https://github.com/forcepusher/com.agava.yandexgames/compare/5.0.0...5.0.1  
-[5.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/4.0.0...5.0.0  
-[4.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/3.0.0...4.0.0
+[8.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/7.0.0...8.0.0

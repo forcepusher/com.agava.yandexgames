@@ -29,9 +29,9 @@ namespace Agava.YandexGames
             }
         }
 
-        public bool IsDownloadFinished { get; private set; }
+        public bool IsDownloadFinished { get; private set; } = false;
 
-        public bool IsDownloadSuccessful { get; private set; }
+        public bool IsDownloadSuccessful { get; private set; } = false;
 
         public string DownloadErrorMessage { get; private set; }
 
