@@ -20,9 +20,6 @@ namespace Agava.YandexGames.Samples
         [SerializeField]
         private InputField _cloudSaveDataInputField;
 
-        [SerializeField]
-        private InputField _productIdInputField;
-
         private void Awake()
         {
             YandexGamesSdk.CallbackLogging = true;
@@ -130,11 +127,6 @@ namespace Agava.YandexGames.Samples
         public void OnGetCloudSaveDataButtonClick()
         {
             PlayerAccount.GetCloudSaveData((data) => _cloudSaveDataInputField.text = data);
-        }
-
-        public void OnGetDeviceTypeButtonClick()
-        {
-            Debug.Log($"DeviceType = {Device.Type}");
         }
 
         public void OnGetEnvironmentButtonClick()

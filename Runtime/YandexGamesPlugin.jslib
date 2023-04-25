@@ -313,11 +313,6 @@ const library = {
     },
 
     billingPurchaseProduct: function (productId, successCallbackPtr, errorCallbackPtr, developerPayload) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('billingPurchaseProduct requires authorization.');
-        return;
-      }
-
       yandexGames.billing.purchase({ id: productId, developerPayload: developerPayload }).then(function (purchaseResponse) {
         purchaseResponse = { purchaseData: purchaseResponse.purchaseData, signature: purchaseResponse.signature };
 
@@ -331,11 +326,6 @@ const library = {
     },
 
     billingConsumeProduct: function (purchasedProductToken, successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('billingConsumeProduct requires authorization.');
-        return;
-      }
-
       yandexGames.billing.consumePurchase(purchasedProductToken).then(function (consumedProduct) {
         dynCall('v', successCallbackPtr, []);
       }).catch(function (error) {
@@ -344,11 +334,6 @@ const library = {
     },
 
     billingGetProductCatalog: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('billingGetProductCatalog requires authorization.');
-        return;
-      }
-
       yandexGames.billing.getCatalog().then(function (productCatalogResponse) {
         productCatalogResponse = { products: productCatalogResponse, signature: productCatalogResponse.signature };
 
@@ -362,11 +347,6 @@ const library = {
     },
 
     billingGetPurchasedProducts: function (successCallbackPtr, errorCallbackPtr) {
-      if (yandexGames.invokeErrorCallbackIfNotAuthorized(errorCallbackPtr)) {
-        console.error('billingGetPurchasedProducts requires authorization.');
-        return;
-      }
-
       yandexGames.billing.getPurchases().then(function (purchasesResponse) {
         purchasesResponse = { purchasedProducts: purchasesResponse, signature: purchasesResponse.signature };
 

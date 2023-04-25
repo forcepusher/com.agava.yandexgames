@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [13.0.0] - 2023-04-25  
+### Changed  
+- Billing methods no longer require authorization.  
+  
+### Removed  
+- Removed Device.Type since it does not detect an iPad as a tablet.  
+Proper device type detection is implemented in [WebUtility](https://github.com/forcepusher/com.agava.webutility) package.  
+  
 ## [12.0.1] - 2023-04-06  
 ### Fixed  
 - Fixed an exploit where disabling internet connection causes rewarded video ads to immediately grant a reward without showing an ad.  
@@ -98,6 +106,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[13.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/12.0.1...13.0.0  
 [12.0.1] https://github.com/forcepusher/com.agava.yandexgames/compare/12.0.0...12.0.1  
 [12.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.1...12.0.0  
 [11.2.1] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.0...11.2.1  
