@@ -118,6 +118,33 @@ const library = {
       }
     },
 
+    playerAccountStartAuthorizationPolling: function (delay, successCallbackPtr, errorCallbackPtr) {
+      if (yandexGames.isAuthorized) {
+        console.error('Already authorized.');
+        dynCall('v', errorCallbackPtr, []);
+        return;
+      }
+
+      function authorizationPollingLoop() {
+        if (yandexGames.isAuthorized) {
+          dynCall('v', successCallbackPtr, []);
+          return;
+        }
+
+        yandexGames.sdk.getPlayer({ scopes: false }).then(function (playerAccount) {
+          if (playerAccount.getMode() !== 'lite') {
+            yandexGames.isAuthorized = true;
+            yandexGames.playerAccount = playerAccount;
+            dynCall('v', successCallbackPtr, []);
+          } else {
+            setTimeout(authorizationPollingLoop, delay);
+          }
+        });
+      };
+      
+      authorizationPollingLoop();
+    },
+
     playerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {
       if (yandexGames.isAuthorized) {
         console.error('Already authorized.');
@@ -386,6 +413,12 @@ const library = {
     yandexGames.throwIfSdkNotInitialized();
 
     return yandexGames.getDeviceType();
+  },
+
+  PlayerAccountStartAuthorizationPolling: function (delay, successCallbackPtr, errorCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.playerAccountStartAuthorizationPolling(delay, successCallbackPtr, errorCallbackPtr);
   },
 
   PlayerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {
