@@ -190,7 +190,7 @@ namespace Agava.YandexGames
         }
         #endregion
 
-        #region PlayerData
+        #region Cloud Save
         /// <summary>
         /// Stores Cloud Save data in the player account. Proxy for player.setData() with "flush" setting set to true.
         /// </summary>

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [13.2.0] - 2023-07-31  
+### Added  
+- `Agava.YandexGames.PlayerPrefs` utility script for migrating from PlayerPrefs-based saves to `PlayerAccount.SetCloudSaveData`.  
+  
 ## [13.1.0] - 2023-07-24  
 ### Added  
 - `PlayerAccount.StartAuthorizationPolling()` method and `AuthorizedInBackground` event to detect background user login after initialization.  
@@ -110,7 +114,8 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
-[13.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.0.0...13.1.0  
+[13.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.1.0...13.2.0  
+[13.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.0.0...13.1.0  
 [13.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/12.0.1...13.0.0  
 [12.0.1] https://github.com/forcepusher/com.agava.yandexgames/compare/12.0.0...12.0.1  
 [12.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/11.2.1...12.0.0  
