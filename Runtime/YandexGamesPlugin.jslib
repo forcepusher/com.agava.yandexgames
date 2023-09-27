@@ -52,7 +52,6 @@ const library = {
           Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
             yandexGames.isInitialized = true;
             dynCall('v', successCallbackPtr, []);
-            yandexGames.sdk.features.LoadingAPI.ready();
           });
         });
       }
@@ -62,6 +61,10 @@ const library = {
       if (!yandexGames.isInitialized) {
         throw new Error('SDK is not initialized. Invoke YandexGamesSdk.Initialize() coroutine and wait for it to finish.');
       }
+    },
+
+    gameReadyNotifyLoadingCompleted: function() {
+      yandexGames.sdk.features.LoadingAPI.ready();
     },
 
     invokeErrorCallback: function (error, errorCallbackPtr) {
@@ -141,7 +144,7 @@ const library = {
           }
         });
       };
-      
+
       authorizationPollingLoop();
     },
 
@@ -386,6 +389,22 @@ const library = {
       });
     },
 
+    canSuggestShortcut: function(boolCallbackPtr) {
+      yandexGames.sdk.shortcut.canShowPrompt().then(function(prompt) {
+        dynCall('vi', boolCallbackPtr, [prompt.canShow]);
+      });
+    },
+
+    suggestShortcut: function(successCallbackPtr, errorCallbackPtr) {
+      yandexGames.sdk.shortcut.showPrompt().then(function(result) {
+        if (result.outcome === 'accepted') {
+          dynCall('v', successCallbackPtr, []);
+          return;
+        }
+        dynCall('v', errorCallbackPtr, []);
+      });
+    },
+
     allocateUnmanagedString: function (string) {
       const stringBufferSize = lengthBytesUTF8(string) + 1;
       const stringBufferPtr = _malloc(stringBufferSize);
@@ -549,6 +568,20 @@ const library = {
     yandexGames.throwIfSdkNotInitialized();
 
     yandexGames.billingGetPurchasedProducts(successCallbackPtr, errorCallbackPtr);
+  },
+
+  ShortcutsCanSuggestShortcut: function (boolCallbackPtr) {
+    yandexGames.canSuggestShortcut(boolCallbackPtr);
+  },
+
+  ShortcutsSuggestShortcut: function (successCallbackPtr, errorCallbackPtr) {
+    yandexGames.suggestShortcut(successCallbackPtr, errorCallbackPtr);
+  },
+
+  GameReadyLoadingCompleted: function() {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.gameReadyNotifyLoadingCompleted();
   },
 }
 
