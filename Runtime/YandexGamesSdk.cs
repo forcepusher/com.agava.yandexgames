@@ -9,7 +9,6 @@ namespace Agava.YandexGames
     public static class YandexGamesSdk
     {
         private static Action s_onInitializeSuccessCallback;
-        private static bool s_notifyLoadingCompletedOnInitialize;
 
         /// <summary>
         /// Enable it to log SDK callbacks in the console.
@@ -42,10 +41,9 @@ namespace Agava.YandexGames
         /// Downloads Yandex SDK script and inserts it into the HTML page.
         /// </summary>
         /// <returns>Coroutine waiting for <see cref="IsInitialized"/> to return true.</returns>
-        public static IEnumerator Initialize(Action onSuccessCallback = null, bool callReadyOnCompletion = true)
+        public static IEnumerator Initialize(Action onSuccessCallback = null)
         {
             s_onInitializeSuccessCallback = onSuccessCallback;
-            s_notifyLoadingCompletedOnInitialize = callReadyOnCompletion;
 
             YandexGamesSdkInitialize(OnInitializeSuccessCallback);
 
@@ -62,10 +60,18 @@ namespace Agava.YandexGames
             if (CallbackLogging)
                 Debug.Log($"{nameof(YandexGamesSdk)}.{nameof(OnInitializeSuccessCallback)} invoked");
 
-            if (s_notifyLoadingCompletedOnInitialize)
-                GameReady.NotifyLoadingCompleted();
-
             s_onInitializeSuccessCallback?.Invoke();
         }
+
+        public static void GameReady()
+        {
+            if (CallbackLogging)
+                Debug.Log($"{nameof(YandexGamesSdk)}.{nameof(GameReady)} invoked");
+
+            YandexGamesSdkGameReady();
+        }
+
+        [DllImport("__Internal")]
+        private static extern void YandexGamesSdkGameReady();
     }
 }

@@ -63,7 +63,7 @@ const library = {
       }
     },
 
-    gameReadyNotifyLoadingCompleted: function() {
+    gameReady: function() {
       yandexGames.sdk.features.LoadingAPI.ready();
     },
 
@@ -389,9 +389,9 @@ const library = {
       });
     },
 
-    canSuggestShortcut: function(boolCallbackPtr) {
+    canSuggestShortcut: function(canSuggestCallbackPtr) {
       yandexGames.sdk.shortcut.canShowPrompt().then(function(prompt) {
-        dynCall('vi', boolCallbackPtr, [prompt.canShow]);
+        dynCall('vi', canSuggestCallbackPtr, [prompt.canShow]);
       });
     },
 
@@ -570,18 +570,18 @@ const library = {
     yandexGames.billingGetPurchasedProducts(successCallbackPtr, errorCallbackPtr);
   },
 
-  ShortcutsCanSuggestShortcut: function (boolCallbackPtr) {
-    yandexGames.canSuggestShortcut(boolCallbackPtr);
+  ShortcutCanSuggestShortcut: function (canSuggestCallbackPtr) {
+    yandexGames.canSuggestShortcut(canSuggestCallbackPtr);
   },
 
-  ShortcutsSuggestShortcut: function (successCallbackPtr, errorCallbackPtr) {
+  ShortcutSuggestShortcut: function (successCallbackPtr, errorCallbackPtr) {
     yandexGames.suggestShortcut(successCallbackPtr, errorCallbackPtr);
   },
 
-  GameReadyLoadingCompleted: function() {
+  YandexGamesSdkGameReady: function() {
     yandexGames.throwIfSdkNotInitialized();
 
-    yandexGames.gameReadyNotifyLoadingCompleted();
+    yandexGames.gameReady();
   },
 }
 

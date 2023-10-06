@@ -4,7 +4,7 @@ using UnityEngine.TestTools;
 
 namespace Agava.YandexGames.Tests
 {
-    public class ShortcutsTests
+    public class ShortcutTests
     {
         [UnitySetUp]
         public IEnumerator InitializeSdk()
@@ -14,15 +14,15 @@ namespace Agava.YandexGames.Tests
         }
 
         [Test]
-        public void IsCanSuggestShouldNotThrow()
+        public void CanSuggestShouldNotThrow()
         {
-            Assert.DoesNotThrow(() => Shortcuts.CanSuggest(result => {}));
+            Assert.DoesNotThrow(() => Shortcut.CanSuggest(result => {}));
         }
 
         [Test]
         public void SuggestShouldNotThrow()
         {
-            Assert.DoesNotThrow(() => Shortcuts.Suggest());
+            Assert.DoesNotThrow(() => Shortcut.Suggest());
         }
     }
 }
