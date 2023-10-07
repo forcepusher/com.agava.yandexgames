@@ -389,19 +389,30 @@ const library = {
       });
     },
 
-    canSuggestShortcut: function(canSuggestCallbackPtr) {
+    shortcutCanSuggest: function(resultCallbackPtr) {
       yandexGames.sdk.shortcut.canShowPrompt().then(function(prompt) {
-        dynCall('vi', canSuggestCallbackPtr, [prompt.canShow]);
+        dynCall('vi', resultCallbackPtr, [prompt.canShow]);
       });
     },
 
-    suggestShortcut: function(successCallbackPtr, errorCallbackPtr) {
+    shortcutSuggest: function(resultCallbackPtr) {
       yandexGames.sdk.shortcut.showPrompt().then(function(result) {
-        if (result.outcome === 'accepted') {
-          dynCall('v', successCallbackPtr, []);
-          return;
-        }
-        dynCall('v', errorCallbackPtr, []);
+        dynCall('vi', resultCallbackPtr, [result.outcome === 'accepted']);
+      });
+    },
+
+    reviewPopupCanOpen: function(resultCallbackPtr) {
+      yandexGames.sdk.feedback.canReview().then(function(result, reason) {
+        if (!reason) { reason = 'No reason'; }
+        const reasonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(reason);
+        dynCall('vii', resultCallbackPtr, [result, reasonUnmanagedStringPtr]);
+        _free(reasonUnmanagedStringPtr);
+      });
+    },
+
+    reviewPopupOpen: function(resultCallbackPtr) {
+      yandexGames.sdk.feedback.requestReview().then(function(result) {
+        dynCall('vi', resultCallbackPtr, [result]);
       });
     },
 
@@ -570,12 +581,28 @@ const library = {
     yandexGames.billingGetPurchasedProducts(successCallbackPtr, errorCallbackPtr);
   },
 
-  ShortcutCanSuggestShortcut: function (canSuggestCallbackPtr) {
-    yandexGames.canSuggestShortcut(canSuggestCallbackPtr);
+  ShortcutCanSuggest: function (resultCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.shortcutCanSuggest(resultCallbackPtr);
   },
 
-  ShortcutSuggestShortcut: function (successCallbackPtr, errorCallbackPtr) {
-    yandexGames.suggestShortcut(successCallbackPtr, errorCallbackPtr);
+  ShortcutSuggest: function (resultCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.shortcutSuggest(resultCallbackPtr);
+  },
+
+  ReviewPopupCanOpen: function (resultCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.reviewPopupCanOpen(resultCallbackPtr);
+  },
+
+  ReviewPopupOpen: function (resultCallbackPtr) {
+    yandexGames.throwIfSdkNotInitialized();
+
+    yandexGames.reviewPopupOpen(resultCallbackPtr);
   },
 
   YandexGamesSdkGameReady: function() {

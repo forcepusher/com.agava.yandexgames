@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [15.0.0] - 2023-10-07  
+### Added  
+- `ReviewPopup.Open` and `CanOpen` methods for requesting user to rate your game.  
+    
+### Changed  
+- `Shortcut.Suggest` now has a single callback with boolean indicating success.  
+  
 ## [14.0.0] - 2023-10-06  
 ### Changed  
 - `Shortcuts` class renamed to singular `Shortcut`.  
@@ -128,6 +135,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[15.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/14.0.0...15.0.0  
 [14.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.3.0...14.0.0  
 [13.3.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.2.0...13.3.0  
 [13.2.0] https://github.com/forcepusher/com.agava.yandexgames/compare/13.1.0...13.2.0  
