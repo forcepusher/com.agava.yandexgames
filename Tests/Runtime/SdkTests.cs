@@ -27,6 +27,12 @@ namespace Agava.YandexGames.Tests
             Assert.IsTrue(s_isInitializationSuccessCallbackReceived);
         }
 
+        [Test]
+        public void IsRunningOnYandexShouldReturnFalse()
+        {
+            Assert.IsFalse(YandexGamesSdk.IsRunningOnYandex);
+        }
+
         public static void TrackSuccessCallback()
         {
             s_isInitializationSuccessCallbackReceived = true;
