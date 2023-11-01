@@ -436,6 +436,8 @@ const library = {
   },
 
   GetYandexGamesSdkEnvironment: function () {
+    yandexGames.throwIfSdkNotInitialized();
+
     return yandexGames.getYandexGamesSdkEnvironment();
   },
 

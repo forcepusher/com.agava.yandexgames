@@ -1,6 +1,6 @@
 {
   "name": "com.agava.yandexgames",
-  "version": "15.1.0",
+  "version": "15.1.1",
   "displayName": "Yandex Games",
   "type": "library",
   "unity": "2020.3",
@@ -12,5 +12,6 @@
       "description": "Contains sample for uploading to Yandex Games and manually testing the SDK.",
       "path": "Samples~/Playtesting"
     }
-  ]
+  ],
+  "author": "github.com/forcepusher"
 }
