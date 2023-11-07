@@ -1,3 +1,4 @@
+using Agava.YandexGames.Utility;
 using NUnit.Framework;
 
 namespace Agava.YandexGames.Tests
