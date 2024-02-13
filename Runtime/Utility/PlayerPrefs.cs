@@ -20,7 +20,10 @@ namespace Agava.YandexGames.Utility
             jsonStringBuilder.Append('{');
 
             foreach (KeyValuePair<string, string> pref in s_prefs)
-                jsonStringBuilder.Append($"\"{pref.Key}\":\"{pref.Value}\",");
+            {
+                string maskedValue = MaskJsonString(pref.Value);
+                jsonStringBuilder.Append($"\"{pref.Key}\":\"{maskedValue}\",");
+            }
 
             if (s_prefs.Count > 0)
                 jsonStringBuilder.Length -= 1;
@@ -122,7 +125,8 @@ namespace Agava.YandexGames.Utility
                         {
                             iterationState = IterationState.StartingKeyQuote;
 
-                            s_prefs[key.ToString()] = value.ToString();
+                            string unmaskedValue = UnmaskJsonString(value.ToString());
+                            s_prefs[key.ToString()] = unmaskedValue;
                             key.Clear();
                             value.Clear();
                         }
@@ -222,6 +226,90 @@ namespace Agava.YandexGames.Utility
         {
             float defaultValue = 0;
             return GetFloat(key, defaultValue);
+        }
+
+        private static string MaskJsonString(string value)
+        {
+            const string openBracketMask = "#OBM#";
+            const string closeBracketMask = "#CBM#";
+            const string quoteMask = "#QuM#";
+            
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            int characterIterator = 0;
+            while (characterIterator < value.Length)
+            {
+                char character = value[characterIterator];
+                
+                switch (character)
+                {
+                    case '{':
+                        stringBuilder.Append(openBracketMask);
+                        break;
+                    case '}':
+                        stringBuilder.Append(closeBracketMask);
+                        break;
+                    case '"':
+                        stringBuilder.Append(quoteMask);
+                        break;
+                    default:
+                        stringBuilder.Append(character);
+                        break;
+                }
+
+				characterIterator += 1;
+            }
+            
+            return stringBuilder.ToString();
+        }
+
+        private static string UnmaskJsonString(string value)
+        {
+            const string openBracketMask = "#OBM#";
+            const string closeBracketMask = "#CBM#";
+            const string quoteMask = "#QuM#";
+            const char checker = '#';
+            const int maskSize = 5;
+            
+            StringBuilder stringBuilder = new StringBuilder();
+            
+            int characterIterator = 0;
+            while (characterIterator < value.Length)
+            {
+                char character = value[characterIterator];
+
+                if (characterIterator <= value.Length - maskSize && character == checker)
+                {
+                    string subString = value.Substring(characterIterator, maskSize);
+                    
+                    switch (subString)
+                    {
+                        case openBracketMask:
+                            stringBuilder.Append('{');
+                            characterIterator += maskSize;
+                            break;
+                        case closeBracketMask:
+                            stringBuilder.Append('}');
+                            characterIterator += maskSize;
+                            break;
+                        case quoteMask:
+                            stringBuilder.Append('"');
+                            characterIterator += maskSize;
+                            break;
+                        default:
+                            stringBuilder.Append(character);
+                            characterIterator += 1;
+                            break;
+                    }
+                }
+                else
+                {
+                    stringBuilder.Append(character);
+                    characterIterator += 1;
+                }
+            }
+            
+            return stringBuilder.ToString();
         }
     }
 }
