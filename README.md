@@ -4,7 +4,7 @@
   
 Make sure you have standalone [Git](https://git-scm.com/downloads) installed first. Reboot after installation.  
 In Unity, open "Window" -> "Package Manager".  
-Click the "+" sign on top left corner -> "Add package from git URL..."  
+Click the "+" sign at the top left corner -> "Add package from git URL..."  
 Paste this: `https://github.com/forcepusher/com.agava.yandexgames.git#16.0.0`  
 See minimum required Unity version in the `package.json` file.  
 Find "Samples" in the package window and click the "Import" button. Use it as a guide.  
