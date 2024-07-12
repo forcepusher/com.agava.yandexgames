@@ -365,7 +365,25 @@ const library = {
 
     billingGetProductCatalog: function (successCallbackPtr, errorCallbackPtr) {
       yandexGames.billing.getCatalog().then(function (productCatalogResponse) {
-        productCatalogResponse = { products: productCatalogResponse, signature: productCatalogResponse.signature };
+        const productCatalog = [];
+
+        for (var i = 0; i < productCatalogResponse.length; i++) {
+          productCatalog[i] = {
+            description: productCatalogResponse[i].description,
+            id: productCatalogResponse[i].id,
+            imageURI: productCatalogResponse[i].imageURI,
+            price: productCatalogResponse[i].price,
+            priceCurrencyCode: productCatalogResponse[i].priceCurrencyCode,
+            priceValue: productCatalogResponse[i].priceValue,
+            title: productCatalogResponse[i].title,
+            priceCurrencyImage: productCatalogResponse[i].getPriceCurrencyImage('medium')
+          };
+        }
+
+        productCatalogResponse = {
+          products: productCatalog,
+          signature: productCatalogResponse.signature
+        };
 
         const productCatalogJson = JSON.stringify(productCatalogResponse);
         const productCatalogJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(productCatalogJson);
