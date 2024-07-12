@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),  
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).  
   
+## [16.1.0] - 2024-07-13  
+### Fixed  
+- Fixed saving JSON fields via `PlayerPrefs` cloud save utility.  
+- `YandexGamesSdk.IsRunningOnYandex` now works when used within european Yandex Games reskin [Playhop](https://playhop.com/).  
+- Added error callback when trying to save invalid JSON via `PlayerAccount.SetCloudSaveData()`.  
+  
+### Added  
+- Added `CatalogProduct.priceCurrencyImage` for passing an IAP moderation.  
+  
 ## [16.0.0] - 2023-08-11  
 ### Changed  
 - Moved PlayerPrefs utility to its own `Agava.YandexGames.Utility` namespace to prevent unintentional naming clashes.  
@@ -147,6 +156,7 @@ This was leading to errors that were difficult to reproduce and detect. Now you 
 - Renamed RequestProfileDataPermission to RequestPersonalProfileDataPermission.  
 - Renamed HasProfileDataPermission to HasPersonalProfileDataPermission.  
   
+[16.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/16.0.0...16.1.0  
 [16.0.0] https://github.com/forcepusher/com.agava.yandexgames/compare/15.1.1...16.0.0  
 [15.1.1] https://github.com/forcepusher/com.agava.yandexgames/compare/15.1.0...15.1.1  
 [15.1.0] https://github.com/forcepusher/com.agava.yandexgames/compare/15.0.0...15.1.0  

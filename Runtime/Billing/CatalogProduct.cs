@@ -22,12 +22,12 @@ namespace Agava.YandexGames
         public string priceCurrencyCode;
 
         [field: Preserve]
+        public string priceCurrencyImage;
+
+        [field: Preserve]
         public string priceValue;
 
         [field: Preserve]
         public string title;
-
-        [field: Preserve]
-        public string priceCurrencyImage;
     }
 }

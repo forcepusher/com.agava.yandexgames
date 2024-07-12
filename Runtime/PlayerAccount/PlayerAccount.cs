@@ -82,16 +82,16 @@ namespace Agava.YandexGames
             s_onAuthorizeErrorCallback?.Invoke(errorMessage);
         }
 
-        public static void StartAuthorizationPolling(int delay, Action successCallback = null, Action errorCallback = null)
+        public static void StartAuthorizationPolling(int repeatDelay, Action successCallback = null, Action errorCallback = null)
         {
             s_onStartAuthorizationPollingSuccessCallback = successCallback;
             s_onStartAuthorizationPollingErrorCallback = errorCallback;
 
-            PlayerAccountStartAuthorizationPolling(delay, OnStartAuthorizationPollingSuccessCallback, OnStartAuthorizationPollingErrorCallback);
+            PlayerAccountStartAuthorizationPolling(repeatDelay, OnStartAuthorizationPollingSuccessCallback, OnStartAuthorizationPollingErrorCallback);
         }
 
         [DllImport("__Internal")]
-        private static extern void PlayerAccountStartAuthorizationPolling(int cooldown, Action successCallback, Action errorCallback);
+        private static extern void PlayerAccountStartAuthorizationPolling(int repeatDelay, Action successCallback, Action errorCallback);
 
         [MonoPInvokeCallback(typeof(Action))]
         private static void OnStartAuthorizationPollingSuccessCallback()

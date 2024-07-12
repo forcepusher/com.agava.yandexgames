@@ -1918,7 +1918,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 680520347}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.6736842
+  m_Size: 0.67368424
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7623,6 +7623,7 @@ GameObject:
   - component: {fileID: 2102737978}
   - component: {fileID: 2102737977}
   - component: {fileID: 2102737976}
+  - component: {fileID: 2102737981}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -7727,6 +7728,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &2102737981
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2102737975}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2126081716
 GameObject:
   m_ObjectHideFlags: 0

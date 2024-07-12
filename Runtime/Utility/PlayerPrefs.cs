@@ -234,7 +234,7 @@ namespace Agava.YandexGames.Utility
             const string closeBracketMask = "#CBM#";
             const string quoteMask = "#QuM#";
             
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             
             int characterIterator = 0;
             while (characterIterator < value.Length)
@@ -271,7 +271,7 @@ namespace Agava.YandexGames.Utility
             const char checker = '#';
             const int maskSize = 5;
             
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             
             int characterIterator = 0;
             while (characterIterator < value.Length)
