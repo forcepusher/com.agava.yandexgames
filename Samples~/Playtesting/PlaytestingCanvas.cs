@@ -38,6 +38,9 @@ namespace Agava.YandexGames.Samples
             canvasGroup.interactable = false;
             // Always wait for it if invoking something immediately in the first scene.
             yield return YandexGamesSdk.Initialize();
+
+            YandexGamesSdk.GameReady();
+
             canvasGroup.interactable = true;
 
             if (PlayerAccount.IsAuthorized == false)
