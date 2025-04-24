@@ -2,6 +2,8 @@
   
 [Try the SDK demo here.](https://yandex.ru/games/app/223976?draft=true)  
   
+Key difference: It's not vandalizing your project unlike other popular plugins. This SDK assumes you're publishing your project to multiple platforms (not only Yandex Games) while using their respective SDKs.  
+  
 Make sure you have the standalone [Git](https://git-scm.com/downloads) installed. Reboot after installation.  
 In Unity, open "Window" -> "Package Manager".  
 Click the "+" sign at the top left corner -> "Add package from git URL..."  
