@@ -3,6 +3,7 @@
 [Try the SDK demo here.](https://yandex.ru/games/app/223976?draft=true)  
   
 **Key difference: Unlike other popular plugins, this SDK does not vandalize your project, and does not force you to use a specific WebGL template. It is designed for publishing your project to multiple web game platforms, allowing you to use their respective SDKs (not just Yandex Games).**  
+Project is maintained on spare time, so it will be behind on new feature support. Forking is highly recommended to modify it for your specific needs.  
   
 Make sure you have the standalone [Git](https://git-scm.com/downloads) installed. Reboot after installation.  
 In Unity, open "Window" -> "Package Manager".  
