@@ -51,7 +51,7 @@ const yandexGamesLibrary = {
 
           Promise.allSettled([leaderboardInitializationPromise, playerAccountInitializationPromise, billingInitializationPromise]).then(function () {
             yandexGames.isInitialized = true;
-            dynCall('v', successCallbackPtr, []);
+            {{{ makeDynCall('v', 'successCallbackPtr') }}}();
           });
         });
       }
@@ -84,7 +84,7 @@ const yandexGamesLibrary = {
       }
 
       const errorUnmanagedStringPtr = yandexGames.allocateUnmanagedString(errorMessage);
-      dynCall('vi', errorCallbackPtr, [errorUnmanagedStringPtr]);
+      {{{ makeDynCall('vi', 'errorCallbackPtr') }}}(errorUnmanagedStringPtr);
       _free(errorUnmanagedStringPtr);
     },
 
@@ -124,13 +124,13 @@ const yandexGamesLibrary = {
     playerAccountStartAuthorizationPolling: function (repeatDelay, successCallbackPtr, errorCallbackPtr) {
       if (yandexGames.isAuthorized) {
         console.error('Already authorized.');
-        dynCall('v', errorCallbackPtr, []);
+        {{{ makeDynCall('v', 'errorCallbackPtr') }}}();
         return;
       }
 
       function authorizationPollingLoop() {
         if (yandexGames.isAuthorized) {
-          dynCall('v', successCallbackPtr, []);
+          {{{ makeDynCall('v', 'successCallbackPtr') }}}();
           return;
         }
 
@@ -138,7 +138,7 @@ const yandexGamesLibrary = {
           if (playerAccount.getMode() !== 'lite') {
             yandexGames.isAuthorized = true;
             yandexGames.playerAccount = playerAccount;
-            dynCall('v', successCallbackPtr, []);
+            {{{ makeDynCall('v', 'successCallbackPtr') }}}();
           } else {
             setTimeout(authorizationPollingLoop, repeatDelay);
           }
@@ -151,7 +151,7 @@ const yandexGamesLibrary = {
     playerAccountAuthorize: function (successCallbackPtr, errorCallbackPtr) {
       if (yandexGames.isAuthorized) {
         console.error('Already authorized.');
-        dynCall('v', successCallbackPtr, []);
+        {{{ makeDynCall('v', 'successCallbackPtr') }}}();
         return;
       }
 
@@ -159,7 +159,7 @@ const yandexGamesLibrary = {
         yandexGames.sdk.getPlayer({ scopes: false }).then(function (playerAccount) {
           yandexGames.isAuthorized = true;
           yandexGames.playerAccount = playerAccount;
-          dynCall('v', successCallbackPtr, []);
+          {{{ makeDynCall('v', 'successCallbackPtr') }}}();
         }).catch(function (error) {
           console.error('authorize failed to update playerAccount. Assuming authorization failed. Error was: ' + error.message);
           yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -194,7 +194,7 @@ const yandexGamesLibrary = {
         yandexGames.playerAccount = playerAccount;
 
         if (yandexGames.getPlayerAccountHasPersonalProfileDataPermission()) {
-          dynCall('v', successCallbackPtr, []);
+          {{{ makeDynCall('v', 'successCallbackPtr') }}}();
         } else {
           yandexGames.invokeErrorCallback(new Error('User has refused the permission request.'), errorCallbackPtr);
         }
@@ -211,7 +211,7 @@ const yandexGamesLibrary = {
 
         const profileDataJson = JSON.stringify(playerAccount._personalInfo);
         const profileDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(profileDataJson);
-        dynCall('vi', successCallbackPtr, [profileDataUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(profileDataUnmanagedStringPtr);
         _free(profileDataUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -221,7 +221,7 @@ const yandexGamesLibrary = {
     playerAccountGetCloudSaveData: function (successCallbackPtr, errorCallbackPtr) {
       yandexGames.playerAccount.getData().then(function (сloudSaveData) {
         const сloudSaveDataUnmanagedStringPtr = yandexGames.allocateUnmanagedString(JSON.stringify(сloudSaveData));
-        dynCall('vi', successCallbackPtr, [сloudSaveDataUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(сloudSaveDataUnmanagedStringPtr);
         _free(сloudSaveDataUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -238,7 +238,7 @@ const yandexGamesLibrary = {
       }
 
       yandexGames.playerAccount.setData(сloudSaveData, true).then(function () {
-        dynCall('v', successCallbackPtr, []);
+        {{{ makeDynCall('v', 'successCallbackPtr') }}}();
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
@@ -248,16 +248,16 @@ const yandexGamesLibrary = {
       yandexGames.sdk.adv.showFullscreenAdv({
         callbacks: {
           onOpen: function () {
-            dynCall('v', openCallbackPtr, []);
+            {{{ makeDynCall('v', 'openCallbackPtr') }}}();
           },
           onClose: function (wasShown) {
-            dynCall('vi', closeCallbackPtr, [wasShown]);
+            {{{ makeDynCall('vi', 'closeCallbackPtr') }}}(wasShown);
           },
           onError: function (error) {
             yandexGames.invokeErrorCallback(error, errorCallbackPtr);
           },
           onOffline: function () {
-            dynCall('v', offlineCallbackPtr, []);
+            {{{ makeDynCall('v', 'offlineCallbackPtr') }}}();
           },
         }
       });
@@ -267,13 +267,13 @@ const yandexGamesLibrary = {
       yandexGames.sdk.adv.showRewardedVideo({
         callbacks: {
           onOpen: function () {
-            dynCall('v', openCallbackPtr, []);
+            {{{ makeDynCall('v', 'openCallbackPtr') }}}();
           },
           onRewarded: function () {
-            dynCall('v', rewardedCallbackPtr, []);
+            {{{ makeDynCall('v', 'rewardedCallbackPtr') }}}();
           },
           onClose: function () {
-            dynCall('v', closeCallbackPtr, []);
+            {{{ makeDynCall('v', 'closeCallbackPtr') }}}();
           },
           onError: function (error) {
             yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -297,7 +297,7 @@ const yandexGamesLibrary = {
       }
 
       yandexGames.leaderboard.setLeaderboardScore(leaderboardName, score, extraData).then(function () {
-        dynCall('v', successCallbackPtr, []);
+        {{{ makeDynCall('v', 'successCallbackPtr') }}}();
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
@@ -318,7 +318,7 @@ const yandexGamesLibrary = {
 
         const entriesJson = JSON.stringify(response);
         const entriesUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entriesJson);
-        dynCall('vi', successCallbackPtr, [entriesUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(entriesUnmanagedStringPtr);
         _free(entriesUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -336,12 +336,12 @@ const yandexGamesLibrary = {
 
         const entryJson = JSON.stringify(response);
         const entryJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(entryJson);
-        dynCall('vi', successCallbackPtr, [entryJsonUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(entryJsonUnmanagedStringPtr);
         _free(entryJsonUnmanagedStringPtr);
       }).catch(function (error) {
         if (error.code === 'LEADERBOARD_PLAYER_NOT_PRESENT') {
           const nullUnmanagedStringPtr = yandexGames.allocateUnmanagedString('null');
-          dynCall('vi', successCallbackPtr, [nullUnmanagedStringPtr]);
+          {{{ makeDynCall('vi', 'successCallbackPtr') }}}(nullUnmanagedStringPtr);
           _free(nullUnmanagedStringPtr);
         } else {
           yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -355,7 +355,7 @@ const yandexGamesLibrary = {
 
         const purchasedProductJson = JSON.stringify(purchaseResponse);
         const purchasedProductJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductJson);
-        dynCall('vi', successCallbackPtr, [purchasedProductJsonUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(purchasedProductJsonUnmanagedStringPtr);
         _free(purchasedProductJsonUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -364,7 +364,7 @@ const yandexGamesLibrary = {
 
     billingConsumeProduct: function (purchasedProductToken, successCallbackPtr, errorCallbackPtr) {
       yandexGames.billing.consumePurchase(purchasedProductToken).then(function (consumedProduct) {
-        dynCall('v', successCallbackPtr, []);
+        {{{ makeDynCall('v', 'successCallbackPtr') }}}();
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
       });
@@ -394,7 +394,7 @@ const yandexGamesLibrary = {
 
         const productCatalogJson = JSON.stringify(productCatalogResponse);
         const productCatalogJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(productCatalogJson);
-        dynCall('vi', successCallbackPtr, [productCatalogJsonUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(productCatalogJsonUnmanagedStringPtr);
         _free(productCatalogJsonUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -407,7 +407,7 @@ const yandexGamesLibrary = {
 
         const purchasedProductsJson = JSON.stringify(purchasesResponse);
         const purchasedProductsJsonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(purchasedProductsJson);
-        dynCall('vi', successCallbackPtr, [purchasedProductsJsonUnmanagedStringPtr]);
+        {{{ makeDynCall('vi', 'successCallbackPtr') }}}(purchasedProductsJsonUnmanagedStringPtr);
         _free(purchasedProductsJsonUnmanagedStringPtr);
       }).catch(function (error) {
         yandexGames.invokeErrorCallback(error, errorCallbackPtr);
@@ -416,13 +416,13 @@ const yandexGamesLibrary = {
 
     shortcutCanSuggest: function(resultCallbackPtr) {
       yandexGames.sdk.shortcut.canShowPrompt().then(function(prompt) {
-        dynCall('vi', resultCallbackPtr, [prompt.canShow]);
+        {{{ makeDynCall('vi', 'resultCallbackPtr') }}}(prompt.canShow);
       });
     },
 
     shortcutSuggest: function(resultCallbackPtr) {
       yandexGames.sdk.shortcut.showPrompt().then(function(result) {
-        dynCall('vi', resultCallbackPtr, [result.outcome === 'accepted']);
+        {{{ makeDynCall('vi', 'resultCallbackPtr') }}}(result.outcome === 'accepted');
       });
     },
 
@@ -430,14 +430,14 @@ const yandexGamesLibrary = {
       yandexGames.sdk.feedback.canReview().then(function(result, reason) {
         if (!reason) { reason = 'No reason'; }
         const reasonUnmanagedStringPtr = yandexGames.allocateUnmanagedString(reason);
-        dynCall('vii', resultCallbackPtr, [result, reasonUnmanagedStringPtr]);
+        {{{ makeDynCall('vii', 'resultCallbackPtr') }}}(result, reasonUnmanagedStringPtr);
         _free(reasonUnmanagedStringPtr);
       });
     },
 
     reviewPopupOpen: function(resultCallbackPtr) {
       yandexGames.sdk.feedback.requestReview().then(function(result) {
-        dynCall('vi', resultCallbackPtr, [result]);
+        {{{ makeDynCall('vi', 'resultCallbackPtr') }}}(result);
       });
     },
 
