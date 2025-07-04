@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     public class RemoteImage
     {

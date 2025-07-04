@@ -1,6 +1,6 @@
 {
-  "name": "com.agava.yandexgames",
-  "version": "17.0.0",
+  "name": "com.bananaparty.yandexgames",
+  "version": "18.0.0",
   "displayName": "Yandex Games",
   "type": "library",
   "unity": "2022.3",

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine.Scripting;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     [Serializable]
     public class PurchasedProduct

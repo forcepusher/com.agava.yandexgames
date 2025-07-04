@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     /// <summary>
     /// Proxy for player-related methods in YandexGames SDK.

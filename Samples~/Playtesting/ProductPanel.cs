@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Agava.YandexGames.Samples
+namespace BananaParty.YandexGames.Samples
 {
     public class ProductPanel : MonoBehaviour
     {

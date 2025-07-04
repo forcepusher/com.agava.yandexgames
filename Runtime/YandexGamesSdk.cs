@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     public static class YandexGamesSdk
     {

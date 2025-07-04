@@ -1,4 +1,4 @@
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     public enum ProfilePictureSize
     {

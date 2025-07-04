@@ -1,13 +1,13 @@
 #pragma warning disable
 
 using System.Collections;
-using Agava.YandexGames;
-using Agava.YandexGames.Samples;
+using BananaParty.YandexGames;
+using BananaParty.YandexGames.Samples;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace Agava.YandexGames.Samples
+namespace BananaParty.YandexGames.Samples
 {
     public class PlaytestingCanvas : MonoBehaviour
     {

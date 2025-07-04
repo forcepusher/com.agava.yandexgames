@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     /// <summary>
     /// Proxy for ysdk.adv.showBannerAdv() and ysdk.adv.hideBannerAdv() methods in YandexGames SDK.

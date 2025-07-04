@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Agava.YandexGames.Samples
+namespace BananaParty.YandexGames.Samples
 {
     public class PurchasedProductPanel : MonoBehaviour
     {

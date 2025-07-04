@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using AOT;
 using UnityEngine;
 
-namespace Agava.YandexGames
+namespace BananaParty.YandexGames
 {
     /// <summary>
     /// Proxy for ysdk.adv.showRewardedVideo() method in YandexGames SDK.

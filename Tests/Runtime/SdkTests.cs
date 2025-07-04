@@ -2,7 +2,7 @@ using System.Collections;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 
-namespace Agava.YandexGames.Tests
+namespace BananaParty.YandexGames.Tests
 {
     public class SdkTests
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Agava.YandexGames.Utility
+namespace BananaParty.YandexGames.Utility
 {
     public static class PlayerPrefs
     {

@@ -1,7 +1,7 @@
-using Agava.YandexGames.Utility;
+using BananaParty.YandexGames.Utility;
 using NUnit.Framework;
 
-namespace Agava.YandexGames.Tests
+namespace BananaParty.YandexGames.Tests
 {
     public class PlayerPrefsTests
     {
