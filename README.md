@@ -14,6 +14,4 @@ See the minimum required Unity version in the `package.json` file.
 Find "Samples" in the package window and click the "Import" button.  
 To update the package, simply add it again using a different version tag.  
   
-This package automatically inserts YandexGames SDK script into HTML page when calling `YandexGamesSdk.Initialize()`. No need to modify WebGLTemplates, just use the SDK methods.  
-  
-This is a publishing repository. If you wish to create a pull request, please use the [Development Repo](https://github.com/forcepusher/YandexGamesUnity).
+This package automatically inserts YandexGames SDK script into HTML page when calling `YandexGamesSdk.Initialize()`. No need to modify WebGLTemplates, just use the SDK methods.
