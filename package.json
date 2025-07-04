@@ -1,9 +1,9 @@
 {
   "name": "com.agava.yandexgames",
-  "version": "16.1.1",
+  "version": "17.0.0",
   "displayName": "Yandex Games",
   "type": "library",
-  "unity": "2020.3",
+  "unity": "2022.3",
   "description": "Yandex Games Unity SDK for the WebGL platform.",
   "license": "MIT",
   "samples": [
